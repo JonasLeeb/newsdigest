@@ -5,6 +5,8 @@ on:
     # UTC. Every 3 h from 02:17 to 20:17 -> the 05:17 run is your ~06:17 morning digest (Berlin, winter time).
     - cron: "17 2-20/3 * * *"
   workflow_dispatch: {}
+  push:
+    branches: [main]   # rebuild right away when you change code or sources (bot commits do not retrigger)
 
 permissions:
   contents: write
