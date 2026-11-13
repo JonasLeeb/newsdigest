@@ -1,0 +1,248 @@
+{
+ "taz": {
+  "ok": true,
+  "n": 49,
+  "url": "https://taz.de/!p4608;rss/",
+  "time": "2026-11-13T18:58:46.431630+00:00"
+ },
+ "nd": {
+  "ok": true,
+  "n": 20,
+  "url": "https://www.nd-aktuell.de/rss/aktuell.php",
+  "time": "2026-11-13T18:58:46.356067+00:00"
+ },
+ "Frankfurter Rundschau": {
+  "ok": true,
+  "n": 40,
+  "url": "https://www.fr.de/politik/rssfeed.rdf",
+  "time": "2026-11-13T18:58:46.056312+00:00"
+ },
+ "Der Spiegel": {
+  "ok": true,
+  "n": 30,
+  "url": "https://www.spiegel.de/schlagzeilen/index.rss",
+  "time": "2026-11-13T18:58:45.995879+00:00"
+ },
+ "Der Spiegel Inland": {
+  "ok": true,
+  "n": 20,
+  "url": "https://www.spiegel.de/politik/deutschland/index.rss",
+  "time": "2026-11-13T18:58:45.988486+00:00"
+ },
+ "S\u00fcddeutsche Zeitung": {
+  "ok": true,
+  "n": 15,
+  "url": "https://rss.sueddeutsche.de/rss/Topthemen",
+  "time": "2026-11-13T18:58:45.842441+00:00"
+ },
+ "Die Zeit": {
+  "ok": true,
+  "n": 15,
+  "url": "https://newsfeed.zeit.de/index",
+  "time": "2026-11-13T18:58:45.625136+00:00"
+ },
+ "stern": {
+  "ok": true,
+  "n": 20,
+  "url": "https://www.stern.de/feed/standard/alle-nachrichten/",
+  "time": "2026-11-13T18:58:45.688581+00:00"
+ },
+ "tagesschau": {
+  "ok": true,
+  "n": 72,
+  "url": "https://www.tagesschau.de/index~rss2.xml",
+  "time": "2026-11-13T18:58:46.038886+00:00"
+ },
+ "tagesschau Inland": {
+  "ok": true,
+  "n": 49,
+  "url": "https://www.tagesschau.de/inland/index~rss2.xml",
+  "time": "2026-11-13T18:58:45.980790+00:00"
+ },
+ "ZDFheute": {
+  "ok": true,
+  "n": 178,
+  "url": "https://www.zdf.de/rss/zdf/nachrichten",
+  "time": "2026-11-13T18:58:46.674445+00:00"
+ },
+ "Deutschlandfunk": {
+  "ok": true,
+  "n": 36,
+  "url": "https://www.deutschlandfunk.de/nachrichten-100.rss",
+  "time": "2026-11-13T18:58:45.864455+00:00"
+ },
+ "n-tv": {
+  "ok": true,
+  "n": 50,
+  "url": "https://www.n-tv.de/rss",
+  "time": "2026-11-13T18:58:45.887663+00:00"
+ },
+ "Handelsblatt": {
+  "ok": true,
+  "n": 50,
+  "url": "https://www.handelsblatt.com/contentexport/feed/schlagzeilen",
+  "time": "2026-11-13T18:58:45.935030+00:00"
+ },
+ "DW Deutsch": {
+  "ok": true,
+  "n": 92,
+  "url": "https://rss.dw.com/xml/rss-de-all",
+  "time": "2026-11-13T18:58:46.383249+00:00"
+ },
+ "FAZ": {
+  "ok": true,
+  "n": 158,
+  "url": "https://www.faz.net/rss/aktuell/",
+  "time": "2026-11-13T18:58:46.353061+00:00"
+ },
+ "FAZ Politik Inland": {
+  "ok": true,
+  "n": 38,
+  "url": "https://www.faz.net/rss/aktuell/politik/inland/",
+  "time": "2026-11-13T18:58:46.415915+00:00"
+ },
+ "Die Welt": {
+  "ok": true,
+  "n": 30,
+  "url": "https://www.welt.de/feeds/latest.rss",
+  "time": "2026-11-13T18:58:46.215316+00:00"
+ },
+ "Focus": {
+  "ok": true,
+  "n": 400,
+  "url": "https://www.focus.de/rss",
+  "time": "2026-11-13T18:58:47.240076+00:00"
+ },
+ "NZZ": {
+  "ok": true,
+  "n": 15,
+  "url": "https://www.nzz.ch/recent.rss",
+  "time": "2026-11-13T18:58:46.155563+00:00"
+ },
+ "Cicero": {
+  "ok": true,
+  "n": 10,
+  "url": "https://www.cicero.de/rss.xml",
+  "time": "2026-11-13T18:58:46.625330+00:00"
+ },
+ "Bild": {
+  "ok": true,
+  "n": 50,
+  "url": "https://www.bild.de/feed/alles.xml",
+  "time": "2026-11-13T18:58:46.467060+00:00"
+ },
+ "Apollo News": {
+  "ok": true,
+  "n": 10,
+  "url": "https://apollo-news.net/feed/",
+  "time": "2026-11-13T18:58:46.495125+00:00"
+ },
+ "Tichys Einblick": {
+  "ok": true,
+  "n": 10,
+  "url": "https://www.tichyseinblick.de/feed/",
+  "time": "2026-11-13T18:58:48.598854+00:00"
+ },
+ "Junge Freiheit": {
+  "ok": true,
+  "n": 30,
+  "url": "https://jungefreiheit.de/feed/",
+  "time": "2026-11-13T18:58:46.698832+00:00"
+ },
+ "The Guardian": {
+  "ok": true,
+  "n": 45,
+  "url": "https://www.theguardian.com/world/rss",
+  "time": "2026-11-13T18:58:46.532875+00:00"
+ },
+ "The New York Times": {
+  "ok": true,
+  "n": 55,
+  "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+  "time": "2026-11-13T18:58:46.618689+00:00"
+ },
+ "NPR": {
+  "ok": true,
+  "n": 10,
+  "url": "https://feeds.npr.org/1004/rss.xml",
+  "time": "2026-11-13T18:58:46.588914+00:00"
+ },
+ "Al Jazeera": {
+  "ok": true,
+  "n": 25,
+  "url": "https://www.aljazeera.com/xml/rss/all.xml",
+  "time": "2026-11-13T18:58:46.590567+00:00"
+ },
+ "BBC News": {
+  "ok": true,
+  "n": 25,
+  "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+  "time": "2026-11-13T18:58:46.704589+00:00"
+ },
+ "DW English": {
+  "ok": true,
+  "n": 127,
+  "url": "https://rss.dw.com/xml/rss-en-all",
+  "time": "2026-11-13T18:58:46.568738+00:00"
+ },
+ "Politico Europe": {
+  "ok": true,
+  "n": 10,
+  "url": "https://www.politico.eu/feed/",
+  "time": "2026-11-13T18:58:46.725187+00:00"
+ },
+ "Euronews": {
+  "ok": true,
+  "n": 50,
+  "url": "https://www.euronews.com/rss",
+  "time": "2026-11-13T18:58:46.737274+00:00"
+ },
+ "The Local Germany": {
+  "ok": true,
+  "n": 20,
+  "url": "https://www.thelocal.de/feeds/rss.php",
+  "time": "2026-11-13T18:58:47.741702+00:00"
+ },
+ "Wall Street Journal": {
+  "ok": true,
+  "n": 71,
+  "url": "https://feeds.content.dowjones.io/public/rss/RSSWorldNews",
+  "time": "2026-11-13T18:58:46.776579+00:00"
+ },
+ "The Telegraph": {
+  "ok": true,
+  "n": 120,
+  "url": "https://www.telegraph.co.uk/rss.xml",
+  "time": "2026-11-13T18:58:46.850740+00:00"
+ },
+ "The Spectator": {
+  "ok": false,
+  "n": 0,
+  "error": "HTTPError: 404 Client Error: Not Found for url: https://spectator.com/feed/",
+  "time": "2026-11-13T18:58:47.974074+00:00"
+ },
+ "New York Post": {
+  "ok": true,
+  "n": 21,
+  "url": "https://nypost.com/feed/",
+  "time": "2026-11-13T18:58:46.805295+00:00"
+ },
+ "Fox News": {
+  "ok": true,
+  "n": 25,
+  "url": "https://moxie.foxnews.com/google-publisher/world.xml",
+  "time": "2026-11-13T18:58:46.934486+00:00"
+ },
+ "National Review": {
+  "ok": true,
+  "n": 20,
+  "url": "https://www.nationalreview.com/feed/",
+  "time": "2026-11-13T18:58:46.862359+00:00"
+ },
+ "spiked": {
+  "ok": true,
+  "n": 10,
+  "url": "https://www.spiked-online.com/feed/",
+  "time": "2026-11-13T18:58:47.220654+00:00"
+ }
+}
