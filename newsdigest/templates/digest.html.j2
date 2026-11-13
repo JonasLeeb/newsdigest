@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Digest">
+<meta name="theme-color" content="#f6f5f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="{{ root }}manifest.webmanifest">
+<link rel="apple-touch-icon" href="{{ root }}icon-180.png">
+<title>Digest · {{ date_label }}</title>
+<style>
+:root{
+  --bg:#f6f5f1;--card:#fff;--ink:#1a1a1a;--muted:#6b6b6b;--line:#e4e2dc;
+  --L:#3b6fb6;--C:#a8a59c;--R:#c0463a;--accent:#1a1a1a;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#141414;--card:#1f1f1f;--ink:#ecebe7;--muted:#9a9890;--line:#2e2e2c;
+  --L:#5f8fd6;--C:#77756e;--R:#e0675a;--accent:#ecebe7;
+}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:16px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;
+  background:var(--bg);color:var(--ink);-webkit-text-size-adjust:100%;
+  padding:env(safe-area-inset-top) 0 calc(env(safe-area-inset-bottom) + 24px)}
+header{padding:20px 16px 8px}
+header h1{font:700 28px/1.1 -apple-system,system-ui;letter-spacing:-.02em}
+header p{color:var(--muted);font-size:13px;margin-top:4px}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;gap:6px;padding:8px 16px;
+  border-bottom:1px solid var(--line);overflow-x:auto}
+nav a{flex:none;font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;
+  padding:6px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+section{padding:18px 12px 4px}
+section>h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 4px 10px}
+section>p.note{font-size:13px;color:var(--muted);margin:-4px 4px 10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.card summary{list-style:none;padding:14px 14px 12px;cursor:pointer}
+.card summary::-webkit-details-marker{display:none}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--muted);margin-bottom:6px}
+.chip{font-size:11px;font-weight:600;padding:2px 7px;border-radius:999px;border:1px solid var(--line)}
+.chip.de{border-color:transparent;background:#f2c94c;color:#1a1a1a}
+.chip.bL{background:var(--L);color:#fff;border-color:transparent}
+.chip.bR{background:var(--R);color:#fff;border-color:transparent}
+.card h3{font-size:17px;line-height:1.28;font-weight:650;letter-spacing:-.01em}
+.card .sum{font-size:14px;color:var(--muted);margin-top:6px}
+.bar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin-top:12px;background:var(--line)}
+.bar i{display:block}
+.bar .L{background:var(--L)}.bar .C{background:var(--C)}.bar .R{background:var(--R)}
+.legend{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:5px}
+.legend b{font-weight:600}
+.legend .l b{color:var(--L)}.legend .r b{color:var(--R)}
+.srcs{border-top:1px solid var(--line);padding:6px 14px 10px}
+.grp{margin-top:8px}
+.grp h4{font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+.grp.l2 h4,.grp.l1 h4{color:var(--L)}.grp.r1 h4,.grp.r2 h4{color:var(--R)}.grp.c0 h4{color:var(--muted)}
+.grp a{display:block;padding:7px 0;color:var(--ink);text-decoration:none;font-size:14px;border-bottom:1px solid var(--line)}
+.grp a:last-child{border-bottom:0}
+.grp a span{display:block;font-size:12px;color:var(--muted);margin-bottom:1px}
+.empty{color:var(--muted);font-size:14px;padding:4px 4px 12px}
+footer{color:var(--muted);font-size:12px;padding:16px;text-align:center}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Daily Digest</h1>
+  <p>{{ date_label }} · updated {{ updated }} · {{ n_articles }} articles from {{ n_outlets }} outlets</p>
+</header>
+<nav>
+  <a href="#top">Top</a><a href="#germany">Germany</a><a href="#blindspots">Blindspots</a>
+</nav>
+
+{% macro story(s) -%}
+<details class="card">
+  <summary>
+    <div class="meta">
+      <span>{{ s.n_outlets }} sources</span>
+      {% if 'de' in s.langs and 'en' in s.langs %}<span class="chip">DE+EN</span>{% endif %}
+      {% if s.germany %}<span class="chip de">Germany</span>{% endif %}
+      {% if s.blindspot == 'R' %}<span class="chip bL">Few right sources</span>{% endif %}
+      {% if s.blindspot == 'L' %}<span class="chip bR">Few left sources</span>{% endif %}
+      <span>· {{ s.lead_outlet }}</span>
+    </div>
+    <h3>{{ s.title }}</h3>
+    {% if s.summary %}<p class="sum">{{ s.summary }}</p>{% endif %}
+    <div class="bar">
+      {% for k in ['L','C','R'] %}{% if s.pct[k] %}<i class="{{ k }}" style="width:{{ s.pct[k] }}%"></i>{% endif %}{% endfor %}
+    </div>
+    <div class="legend">
+      <span class="l"><b>L {{ s.pct.L }}%</b></span><span>C {{ s.pct.C }}%</span><span class="r"><b>R {{ s.pct.R }}%</b></span>
+    </div>
+  </summary>
+  <div class="srcs">
+    {% for g in s.groups %}
+    <div class="grp {{ 'l' ~ (-g.lean) if g.lean < 0 else ('r' ~ g.lean if g.lean > 0 else 'c0') }}">
+      <h4>{{ g.label }}</h4>
+      {% for a in g.articles %}<a href="{{ a.link }}" target="_blank" rel="noopener"><span>{{ a.outlet }}</span>{{ a.title }}</a>{% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+</details>
+{%- endmacro %}
+
+<section id="top">
+  <h2>Top stories</h2>
+  {% for s in digest.top %}{{ story(s) }}{% else %}<p class="empty">No widely covered stories yet.</p>{% endfor %}
+</section>
+
+<section id="germany">
+  <h2>Germany</h2>
+  {% for s in digest.germany %}{{ story(s) }}{% else %}<p class="empty">No further Germany stories.</p>{% endfor %}
+</section>
+
+<section id="blindspots">
+  <h2>Blindspots</h2>
+  <p class="note">Stories covered almost only by one side.</p>
+  <h2 style="margin-top:6px">Missed by the right</h2>
+  {% for s in digest.blindspots.R %}{{ story(s) }}{% else %}<p class="empty">None today.</p>{% endfor %}
+  <h2 style="margin-top:10px">Missed by the left</h2>
+  {% for s in digest.blindspots.L %}{{ story(s) }}{% else %}<p class="empty">None today.</p>{% endfor %}
+</section>
+
+<footer>
+  Bias labels are your own (sources.yaml) · <a href="{{ root }}archive/">Archive</a>
+</footer>
+</body>
+</html>

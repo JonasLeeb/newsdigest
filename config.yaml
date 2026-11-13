@@ -1,0 +1,29 @@
+# Tuning knobs. Run `python -m newsdigest inspect` after a few fetches to check
+# clusters, then adjust distance_threshold.
+
+window_hours: 36            # articles older than this are ignored for the digest
+keep_hours: 72              # articles older than this are dropped from the store
+
+clustering:
+  backend: embedding        # embedding (multilingual, groups DE+EN coverage) | tfidf (no model, same-language only)
+  model: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+  distance_threshold: 0.42  # cosine distance, average linkage. Lower = stricter (smaller stories)
+  tfidf_distance_threshold: 0.75
+
+digest:
+  top_stories: 10
+  germany_stories: 8
+  blindspots_per_side: 3
+  min_sources_top: 3        # distinct outlets for a story to count as "top"
+  blindspot_min_sources: 3
+  blindspot_share: 0.8      # share of partisan (non-center) coverage from one side
+
+germany:
+  # A story is "Deutschland" if at least this share of its articles come from a
+  # scope:de feed or mention one of the keywords.
+  min_share: 0.5
+  keywords: [Deutschland, Germany, German, deutsche, Bundestag, Bundesrat, Bundesregierung,
+             Bundeskanzler, Kanzler, Merz, Bundesverfassungsgericht, Bundeswehr, Bundesland,
+             Landtag, CDU, CSU, SPD, AfD, Grüne, Grünen, FDP, BSW, Linke, Berlin, Bayern,
+             Sachsen, Thüringen, Brandenburg, Hessen, Niedersachsen, Nordrhein-Westfalen,
+             NRW, Baden-Württemberg, Hamburg, München, Köln, Frankfurt, Deutsche Bahn, Deutschen Bahn, Bundesbank]

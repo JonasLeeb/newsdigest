@@ -1,0 +1,53 @@
+# Source list with bias labels.
+#
+# lean:  -2 left · -1 lean left · 0 center · 1 lean right · 2 right
+#        German outlets are rated on the German spectrum, English ones on
+#        their home spectrum (mostly US/UK). These are starting values based on
+#        AllSides / Ad Fontes / Media Bias Fact Check and common German media
+#        studies — edit them freely, they are YOUR labels.
+# factuality: high | mostly | mixed
+# scope: de  -> feed is domestic German news (counts toward "Deutschland")
+#        all -> general / world feed
+# A feed that fails to load is skipped with a warning, so dead URLs don't break runs.
+
+sources:
+  # ---------------------------------------------------------------- German
+  - {name: taz,                 lean: -2, lang: de, factuality: high,   owner: "taz Genossenschaft",            scope: all, url: "https://taz.de/!p4608;rss/"}
+  - {name: nd,                  lean: -2, lang: de, factuality: mostly, owner: "nd Genossenschaft",             scope: all, url: "https://www.nd-aktuell.de/rss/aktuell.php"}
+  - {name: Frankfurter Rundschau, lean: -1, lang: de, factuality: high, owner: "Ippen Media",                   scope: all, url: "https://www.fr.de/politik/rssfeed.rdf"}
+  - {name: Der Spiegel,         lean: -1, lang: de, factuality: high,   owner: "Spiegel-Verlag (Augstein / Bertelsmann)", scope: all, url: "https://www.spiegel.de/schlagzeilen/index.rss"}
+  - {name: Der Spiegel Inland,  lean: -1, lang: de, factuality: high,   owner: "Spiegel-Verlag (Augstein / Bertelsmann)", scope: de,  url: "https://www.spiegel.de/politik/deutschland/index.rss", outlet: Der Spiegel}
+  - {name: Süddeutsche Zeitung, lean: -1, lang: de, factuality: high,   owner: "Südwestdeutsche Medien Holding", scope: all, url: "https://rss.sueddeutsche.de/rss/Topthemen"}
+  - {name: Die Zeit,            lean: -1, lang: de, factuality: high,   owner: "Holtzbrinck",                   scope: all, url: "https://newsfeed.zeit.de/index"}
+  - {name: stern,               lean: -1, lang: de, factuality: mostly, owner: "RTL Group (Bertelsmann)",       scope: all, url: "https://www.stern.de/feed/standard/alle-nachrichten/"}
+  - {name: tagesschau,          lean: 0,  lang: de, factuality: high,   owner: "ARD (public)",                  scope: all, url: "https://www.tagesschau.de/index~rss2.xml"}
+  - {name: tagesschau Inland,   lean: 0,  lang: de, factuality: high,   owner: "ARD (public)",                  scope: de,  url: "https://www.tagesschau.de/inland/index~rss2.xml", outlet: tagesschau}
+  - {name: ZDFheute,            lean: 0,  lang: de, factuality: high,   owner: "ZDF (public)",                  scope: all, url: "https://www.zdf.de/rss/zdf/nachrichten"}
+  - {name: Deutschlandfunk,     lean: 0,  lang: de, factuality: high,   owner: "Deutschlandradio (public)",     scope: all, url: "https://www.deutschlandfunk.de/nachrichten-100.rss"}
+  - {name: n-tv,                lean: 0,  lang: de, factuality: mostly, owner: "RTL Group (Bertelsmann)",       scope: all, url: "https://www.n-tv.de/rss"}
+  - {name: Handelsblatt,        lean: 0,  lang: de, factuality: high,   owner: "Handelsblatt Media Group",      scope: all, url: "https://www.handelsblatt.com/contentexport/feed/schlagzeilen"}
+  - {name: DW Deutsch,          lean: 0,  lang: de, factuality: high,   owner: "Deutsche Welle (public)",       scope: all, url: "https://rss.dw.com/xml/rss-de-all"}
+  - {name: FAZ,                 lean: 1,  lang: de, factuality: high,   owner: "FAZIT-Stiftung",                scope: all, url: "https://www.faz.net/rss/aktuell/"}
+  - {name: FAZ Politik Inland,  lean: 1,  lang: de, factuality: high,   owner: "FAZIT-Stiftung",                scope: de,  url: "https://www.faz.net/rss/aktuell/politik/inland/", outlet: FAZ}
+  - {name: Die Welt,            lean: 1,  lang: de, factuality: high,   owner: "Axel Springer",                 scope: all, url: "https://www.welt.de/feeds/latest.rss"}
+  - {name: Focus,               lean: 1,  lang: de, factuality: mostly, owner: "Hubert Burda Media",            scope: all, url: "https://rss.focus.de/fol/XML/rss_folnews.xml"}
+  - {name: NZZ,                 lean: 1,  lang: de, factuality: high,   owner: "NZZ AG (Swiss)",                scope: all, url: "https://www.nzz.ch/recent.rss"}
+  - {name: Cicero,              lean: 1,  lang: de, factuality: mostly, owner: "Res Publica Verlag",            scope: all, url: "https://www.cicero.de/rss.xml"}
+  - {name: Bild,                lean: 1,  lang: de, factuality: mixed,  owner: "Axel Springer",                 scope: all, url: "https://www.bild.de/feed/alles.xml"}
+  - {name: Tichys Einblick,     lean: 2,  lang: de, factuality: mixed,  owner: "Tichys Einblick GmbH",          scope: all, url: "https://www.tichyseinblick.de/feed/"}
+  - {name: Junge Freiheit,      lean: 2,  lang: de, factuality: mixed,  owner: "Junge Freiheit Verlag",         scope: all, url: "https://jungefreiheit.de/feed/"}
+
+  # ---------------------------------------------------------------- English
+  - {name: The Guardian,        lean: -1, lang: en, factuality: high,   owner: "Scott Trust",                   scope: all, url: "https://www.theguardian.com/world/rss"}
+  - {name: The New York Times,  lean: -1, lang: en, factuality: high,   owner: "NYT Company",                   scope: all, url: "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"}
+  - {name: NPR,                 lean: -1, lang: en, factuality: high,   owner: "NPR (public)",                  scope: all, url: "https://feeds.npr.org/1004/rss.xml"}
+  - {name: Al Jazeera,          lean: -1, lang: en, factuality: mostly, owner: "Al Jazeera Media Network (Qatar state)", scope: all, url: "https://www.aljazeera.com/xml/rss/all.xml"}
+  - {name: BBC News,            lean: 0,  lang: en, factuality: high,   owner: "BBC (public)",                  scope: all, url: "https://feeds.bbci.co.uk/news/world/rss.xml"}
+  - {name: DW English,          lean: 0,  lang: en, factuality: high,   owner: "Deutsche Welle (public)",       scope: all, url: "https://rss.dw.com/xml/rss-en-all"}
+  - {name: Politico Europe,     lean: 0,  lang: en, factuality: high,   owner: "Axel Springer",                 scope: all, url: "https://www.politico.eu/feed/"}
+  - {name: Euronews,            lean: 0,  lang: en, factuality: mostly, owner: "Alpac Capital",                 scope: all, url: "https://www.euronews.com/rss"}
+  - {name: The Local Germany,   lean: 0,  lang: en, factuality: mostly, owner: "The Local Europe AB",           scope: de,  url: "https://www.thelocal.de/feeds/rss.php"}
+  - {name: Wall Street Journal, lean: 1,  lang: en, factuality: high,   owner: "News Corp (Murdoch)",           scope: all, url: "https://feeds.a.dj.com/rss/RSSWorldNews.xml"}
+  - {name: The Telegraph,       lean: 1,  lang: en, factuality: mostly, owner: "Telegraph Media Group",         scope: all, url: "https://www.telegraph.co.uk/news/rss.xml"}
+  - {name: Fox News,            lean: 2,  lang: en, factuality: mixed,  owner: "Fox Corporation (Murdoch)",     scope: all, url: "https://moxie.foxnews.com/google-publisher/world.xml"}
+  - {name: spiked,              lean: 2,  lang: en, factuality: mixed,  owner: "spiked Ltd",                    scope: all, url: "https://www.spiked-online.com/feed/"}
