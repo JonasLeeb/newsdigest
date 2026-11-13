@@ -56,3 +56,83 @@ sources:
   - {name: Fox News,            lean: 2,  lang: en, factuality: mixed,  owner: "Fox Corporation (Murdoch)",     scope: all, url: "https://moxie.foxnews.com/google-publisher/world.xml"}
   - {name: National Review,     lean: 2,  lang: en, factuality: mostly, owner: "National Review Inc.",          scope: all, url: "https://www.nationalreview.com/feed/"}
   - {name: spiked,              lean: 2,  lang: en, factuality: mixed,  owner: "spiked Ltd",                    scope: all, url: "https://www.spiked-online.com/feed/"}
+
+  # ================================================================ Science · Tech · Space
+  # Section feeds of rated outlets keep that outlet's lean (outlet: ...).
+  # Specialist outlets have rated: false -> they appear in stories and search,
+  # but do not count toward the left/center/right coverage bars or blindspots.
+
+  # ---------------------------------------------------------------- sections of rated outlets (DE)
+  - {name: Spiegel Wissenschaft, outlet: Der Spiegel, lean: -1, lang: de, factuality: high, owner: "Spiegel-Verlag (Augstein / Bertelsmann)", scope: all, url: "https://www.spiegel.de/wissenschaft/index.rss"}
+  - {name: Spiegel Netzwelt,     outlet: Der Spiegel, lean: -1, lang: de, factuality: high, owner: "Spiegel-Verlag (Augstein / Bertelsmann)", scope: all, url: "https://www.spiegel.de/netzwelt/index.rss"}
+  - {name: tagesschau Wissen,    outlet: tagesschau,  lean: 0,  lang: de, factuality: high, owner: "ARD (public)",           scope: all, url: "https://www.tagesschau.de/wissen/index~rss2.xml"}
+  - {name: Zeit Wissen,          outlet: Die Zeit,    lean: -1, lang: de, factuality: high, owner: "Holtzbrinck",            scope: all, url: "https://newsfeed.zeit.de/wissen/index"}
+  - {name: Zeit Digital,         outlet: Die Zeit,    lean: -1, lang: de, factuality: high, owner: "Holtzbrinck",            scope: all, url: "https://newsfeed.zeit.de/digital/index"}
+  - {name: SZ Wissen,            outlet: Süddeutsche Zeitung, lean: -1, lang: de, factuality: high, owner: "Südwestdeutsche Medien Holding", scope: all, url: ["https://rss.sueddeutsche.de/rss/Wissen", "https://rss.sueddeutsche.de/rss/Wissenschaft"]}
+  - {name: FAZ Wissen,           outlet: FAZ,         lean: 1,  lang: de, factuality: high, owner: "FAZIT-Stiftung",         scope: all, url: "https://www.faz.net/rss/aktuell/wissen/"}
+  - {name: FAZ Technik,          outlet: FAZ,         lean: 1,  lang: de, factuality: high, owner: "FAZIT-Stiftung",         scope: all, url: ["https://www.faz.net/rss/aktuell/technik-motor/", "https://www.faz.net/rss/aktuell/digitec/"]}
+  - {name: Welt Wissenschaft,    outlet: Die Welt,    lean: 1,  lang: de, factuality: high, owner: "Axel Springer",          scope: all, url: ["https://www.welt.de/feeds/section/wissenschaft.rss", "https://www.welt.de/feeds/section/wirtschaft/webwelt.rss"]}
+  - {name: n-tv Wissen,          outlet: n-tv,        lean: 0,  lang: de, factuality: mostly, owner: "RTL Group (Bertelsmann)", scope: all, url: ["https://www.n-tv.de/wissen/rss", "https://www.n-tv.de/technik/rss"]}
+  - {name: Deutschlandfunk Forschung, outlet: Deutschlandfunk, lean: 0, lang: de, factuality: high, owner: "Deutschlandradio (public)", scope: all, url: ["https://www.deutschlandfunk.de/forschung-aktuell-102.rss", "https://www.deutschlandfunk.de/wissen-106.rss"]}
+  - {name: Focus Wissen,         outlet: Focus,       lean: 1,  lang: de, factuality: mostly, owner: "Hubert Burda Media",   scope: all, url: ["https://rss.focus.de/fol/XML/rss_folnews_wissen.xml", "https://www.focus.de/wissen/rss"]}
+
+  # ---------------------------------------------------------------- sections of rated outlets (EN)
+  - {name: BBC Science,          outlet: BBC News,    lean: 0,  lang: en, factuality: high, owner: "BBC (public)",           scope: all, url: "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml"}
+  - {name: BBC Technology,       outlet: BBC News,    lean: 0,  lang: en, factuality: high, owner: "BBC (public)",           scope: all, url: "https://feeds.bbci.co.uk/news/technology/rss.xml"}
+  - {name: Guardian Science,     outlet: The Guardian, lean: -1, lang: en, factuality: high, owner: "Scott Trust",           scope: all, url: "https://www.theguardian.com/science/rss"}
+  - {name: Guardian Technology,  outlet: The Guardian, lean: -1, lang: en, factuality: high, owner: "Scott Trust",           scope: all, url: "https://www.theguardian.com/technology/rss"}
+  - {name: NYT Science,          outlet: The New York Times, lean: -1, lang: en, factuality: high, owner: "NYT Company",     scope: all, url: "https://rss.nytimes.com/services/xml/rss/nyt/Science.xml"}
+  - {name: NYT Space,            outlet: The New York Times, lean: -1, lang: en, factuality: high, owner: "NYT Company",     scope: all, url: "https://rss.nytimes.com/services/xml/rss/nyt/Space.xml"}
+  - {name: NYT Technology,       outlet: The New York Times, lean: -1, lang: en, factuality: high, owner: "NYT Company",     scope: all, url: "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml"}
+  - {name: NPR Science,          outlet: NPR,         lean: -1, lang: en, factuality: high, owner: "NPR (public)",           scope: all, url: "https://feeds.npr.org/1007/rss.xml"}
+  - {name: Fox News Science,     outlet: Fox News,    lean: 2,  lang: en, factuality: mixed, owner: "Fox Corporation (Murdoch)", scope: all, url: ["https://moxie.foxnews.com/google-publisher/science.xml", "https://moxie.foxnews.com/google-publisher/tech.xml"]}
+  - {name: NY Post Tech,         outlet: New York Post, lean: 1, lang: en, factuality: mixed, owner: "News Corp (Murdoch)",  scope: all, url: "https://nypost.com/tech/feed/"}
+  - {name: Telegraph Science,    outlet: The Telegraph, lean: 1, lang: en, factuality: mostly, owner: "Telegraph Media Group", scope: all, url: ["https://www.telegraph.co.uk/science/rss.xml", "https://www.telegraph.co.uk/technology/rss.xml"]}
+  - {name: WSJ Tech,             outlet: Wall Street Journal, lean: 1, lang: en, factuality: high, owner: "News Corp (Murdoch)", scope: all, url: ["https://feeds.content.dowjones.io/public/rss/RSSWSJD", "https://feeds.a.dj.com/rss/RSSWSJD.xml"]}
+
+  # ---------------------------------------------------------------- specialist science & tech (DE)
+  - {name: heise online,         rated: false, lean: 0, lang: de, factuality: high,   owner: "Heise Gruppe",            scope: all, url: ["https://www.heise.de/rss/heise-atom.xml", "https://www.heise.de/rss/heise.rdf"]}
+  - {name: golem.de,             rated: false, lean: 0, lang: de, factuality: high,   owner: "Golem Media",             scope: all, url: "https://rss.golem.de/rss.php?feed=RSS2.0"}
+  - {name: t3n,                  rated: false, lean: 0, lang: de, factuality: mostly, owner: "yeebase media",           scope: all, url: ["https://t3n.de/rss.xml", "https://t3n.de/feed/"]}
+  - {name: netzpolitik.org,      rated: false, lean: 0, lang: de, factuality: high,   owner: "netzpolitik.org e.V.",    scope: all, url: "https://netzpolitik.org/feed/"}
+  - {name: Spektrum,             rated: false, lean: 0, lang: de, factuality: high,   owner: "Spektrum der Wissenschaft (Holtzbrinck)", scope: all, url: ["https://www.spektrum.de/alias/rss/spektrum-de-rss-feed/996406", "https://www.spektrum.de/rss"]}
+  - {name: scinexx,              rated: false, lean: 0, lang: de, factuality: high,   owner: "MMCD NEW MEDIA",          scope: all, url: "https://www.scinexx.de/feed/"}
+  - {name: Raumfahrer.net,       rated: false, lean: 0, lang: de, factuality: mostly, owner: "Raumfahrer.net e.V.",     scope: all, url: "https://www.raumfahrer.net/feed/"}
+  - {name: Computerbase,         rated: false, lean: 0, lang: de, factuality: high,   owner: "ComputerBase GmbH",       scope: all, url: "https://www.computerbase.de/rss/news.xml"}
+  - {name: ESA (DE), outlet: ESA, rated: false, lean: 0, lang: de, factuality: high,   owner: "European Space Agency",   scope: all, url: ["https://www.esa.int/rssfeed/Germany", "https://www.esa.int/rssfeed/Our_Activities/Space_News"]}
+
+  # ---------------------------------------------------------------- specialist science (EN)
+  - {name: Nature News,          rated: false, lean: 0, lang: en, factuality: high,   owner: "Springer Nature",         scope: all, url: ["https://www.nature.com/nature.rss", "https://www.nature.com/news.rss"]}
+  - {name: Science News (AAAS),  rated: false, lean: 0, lang: en, factuality: high,   owner: "AAAS",                    scope: all, url: ["https://www.science.org/rss/news_current.xml", "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science"]}
+  - {name: New Scientist,        rated: false, lean: 0, lang: en, factuality: high,   owner: "Daily Mail and General Trust", scope: all, url: "https://www.newscientist.com/feed/home/"}
+  - {name: Scientific American,  rated: false, lean: 0, lang: en, factuality: high,   owner: "Springer Nature",         scope: all, url: ["https://www.scientificamerican.com/platform/syndication/rss/", "http://rss.sciam.com/ScientificAmerican-Global"]}
+  - {name: Quanta Magazine,      rated: false, lean: 0, lang: en, factuality: high,   owner: "Simons Foundation",       scope: all, url: "https://www.quantamagazine.org/feed/"}
+  - {name: Phys.org,             rated: false, lean: 0, lang: en, factuality: high,   owner: "Science X",               scope: all, url: ["https://phys.org/rss-feed/breaking/", "https://phys.org/rss-feed/"]}
+  - {name: ScienceDaily,         rated: false, lean: 0, lang: en, factuality: high,   owner: "ScienceDaily LLC",        scope: all, url: ["https://www.sciencedaily.com/rss/top/science.xml", "https://www.sciencedaily.com/rss/all.xml"]}
+  - {name: Science News,         rated: false, lean: 0, lang: en, factuality: high,   owner: "Society for Science",     scope: all, url: "https://www.sciencenews.org/feed"}
+  - {name: The Conversation,     rated: false, lean: 0, lang: en, factuality: high,   owner: "The Conversation Trust",  scope: all, url: ["https://theconversation.com/global/articles.atom", "https://theconversation.com/uk/articles.atom"]}
+
+  # ---------------------------------------------------------------- specialist tech (EN)
+  - {name: Ars Technica,         rated: false, lean: 0, lang: en, factuality: high,   owner: "Condé Nast",              scope: all, url: "https://feeds.arstechnica.com/arstechnica/index"}
+  - {name: The Verge,            rated: false, lean: 0, lang: en, factuality: high,   owner: "Vox Media",               scope: all, url: "https://www.theverge.com/rss/index.xml"}
+  - {name: Wired,                rated: false, lean: 0, lang: en, factuality: high,   owner: "Condé Nast",              scope: all, url: "https://www.wired.com/feed/rss"}
+  - {name: TechCrunch,           rated: false, lean: 0, lang: en, factuality: high,   owner: "Yahoo",                   scope: all, url: "https://techcrunch.com/feed/"}
+  - {name: MIT Technology Review, rated: false, lean: 0, lang: en, factuality: high,  owner: "MIT",                     scope: all, url: "https://www.technologyreview.com/feed/"}
+  - {name: IEEE Spectrum,        rated: false, lean: 0, lang: en, factuality: high,   owner: "IEEE",                    scope: all, url: "https://spectrum.ieee.org/feeds/feed.rss"}
+  - {name: The Register,         rated: false, lean: 0, lang: en, factuality: high,   owner: "Situation Publishing",    scope: all, url: "https://www.theregister.com/headlines.atom"}
+  - {name: Engadget,             rated: false, lean: 0, lang: en, factuality: mostly, owner: "Yahoo",                   scope: all, url: "https://www.engadget.com/rss.xml"}
+  - {name: Tom's Hardware,       rated: false, lean: 0, lang: en, factuality: mostly, owner: "Future plc",              scope: all, url: "https://www.tomshardware.com/feeds/all"}
+  - {name: Electrek,             rated: false, lean: 0, lang: en, factuality: mostly, owner: "9to5 Media",              scope: all, url: "https://electrek.co/feed/"}
+
+  # ---------------------------------------------------------------- specialist space (EN)
+  - {name: SpaceNews,            rated: false, lean: 0, lang: en, factuality: high,   owner: "SpaceNews (Pocket Ventures)", scope: all, url: "https://spacenews.com/feed/"}
+  - {name: Space.com,            rated: false, lean: 0, lang: en, factuality: mostly, owner: "Future plc",              scope: all, url: "https://www.space.com/feeds/all"}
+  - {name: NASASpaceflight,      rated: false, lean: 0, lang: en, factuality: high,   owner: "NASASpaceflight.com",     scope: all, url: "https://www.nasaspaceflight.com/feed/"}
+  - {name: Spaceflight Now,      rated: false, lean: 0, lang: en, factuality: high,   owner: "Spaceflight Now",         scope: all, url: "https://spaceflightnow.com/feed/"}
+  - {name: Ars Technica Space,   outlet: Ars Technica, rated: false, lean: 0, lang: en, factuality: high, owner: "Condé Nast", scope: all, url: "https://feeds.arstechnica.com/arstechnica/science"}
+  - {name: Payload,              rated: false, lean: 0, lang: en, factuality: high,   owner: "Payload Research",        scope: all, url: "https://payloadspace.com/feed/"}
+  - {name: Universe Today,       rated: false, lean: 0, lang: en, factuality: high,   owner: "Universe Today",          scope: all, url: "https://www.universetoday.com/feed/"}
+  - {name: NASA,                 rated: false, lean: 0, lang: en, factuality: high,   owner: "NASA (US government)",    scope: all, url: ["https://www.nasa.gov/news-release/feed/", "https://www.nasa.gov/feed/"]}
+  - {name: ESA,                  rated: false, lean: 0, lang: en, factuality: high,   owner: "European Space Agency",   scope: all, url: "https://www.esa.int/rssfeed/Our_Activities/Space_News"}
+  - {name: Planetary Society,    rated: false, lean: 0, lang: en, factuality: high,   owner: "The Planetary Society",   scope: all, url: ["https://www.planetary.org/rss/articles", "https://www.planetary.org/feed"]}
+  - {name: Teslarati,            rated: false, lean: 0, lang: en, factuality: mixed,  owner: "Teslarati",               scope: all, url: "https://www.teslarati.com/feed/"}

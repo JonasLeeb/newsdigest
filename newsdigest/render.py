@@ -15,7 +15,7 @@ def render(stories: list[dict], digest: dict, articles: list[dict], sources: lis
     now = datetime.now(TZ)
     outlets = {}
     for s in sources:
-        o = outlets.setdefault(s["outlet"], {k: s[k] for k in ("lean", "lang", "factuality", "owner")})
+        o = outlets.setdefault(s["outlet"], {k: s[k] for k in ("lean", "lang", "factuality", "owner", "rated")})
         st = feed_status.get(s["name"])
         if st:  # an outlet with several feeds is ok if any of them is
             o["ok"] = o.get("ok", False) or st["ok"]

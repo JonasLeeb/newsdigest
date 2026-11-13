@@ -14,6 +14,8 @@ digest:
   top_stories: 10
   germany_stories: 8
   blindspots_per_side: 3
+  science_stories: 8
+  science_topics: [Space, Science, Tech]
   min_sources_top: 3        # distinct outlets for a story to count as "top"
   blindspot_min_sources: 3
   blindspot_share: 0.8      # share of partisan (non-center) coverage from one side
@@ -38,7 +40,9 @@ topics:
   Migration:  [Migration Asyl Flüchtlinge Abschiebung Grenze, migration asylum refugees deportation border]
   Climate:    [Klima Umwelt Energie Wetter Hitze Unwetter, climate environment energy emissions weather storm, Klimaschutz Erneuerbare CO2, renewable energy pollution]
   Justice:    [Gericht Urteil Polizei Ermittlungen Prozess Kriminalität, court ruling police investigation trial crime]
-  Tech:       [Technologie künstliche Intelligenz Software Internet Digitalisierung, technology artificial intelligence software tech companies, Wissenschaft Forschung Raumfahrt, science research space]
+  Space:      [Raumfahrt Rakete Raketenstart Weltraum Satellit Astronaut, space rocket launch orbit satellite astronaut, SpaceX Starship Falcon NASA ESA Artemis ISS, Mond Mars Planet Teleskop Asteroid, moon mars planet telescope asteroid galaxy]
+  Science:    [Wissenschaft Forschung Studie Forscher Physik Biologie Chemie, science research study scientists physics biology chemistry, Archäologie Evolution Genetik Quanten, archaeology evolution genetics quantum fossils]
+  Tech:       [Technologie künstliche Intelligenz Software Internet Digitalisierung Chips, technology artificial intelligence software internet chips, Smartphone Apple Google Microsoft OpenAI Nvidia, cybersecurity hackers data privacy apps gadgets]
   Health:     [Gesundheit Krankenhaus Medizin Krankheit Pflege, health hospital medicine disease healthcare]
   Society:    [Gesellschaft Bildung Schule Familie Wohnen Mieten Verkehr Bahn, society education schools housing transport]
   Sport:      [Fußball Bundesliga Sport Spiel Tor Trainer, football soccer sport match game coach championship]

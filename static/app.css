@@ -117,3 +117,4 @@ mark{background:rgba(242,201,76,.45);color:inherit;border-radius:2px}
   color:var(--muted);font-size:10.5px;font-weight:600}
 .tabs svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .tabs a.on{color:var(--ink)}
+.search input::-webkit-search-cancel-button{-webkit-appearance:none;display:none}

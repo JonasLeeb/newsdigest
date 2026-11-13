@@ -26,6 +26,7 @@ def load_sources(path: Path) -> list[dict]:
     for s in sources:
         s.setdefault("outlet", s["name"])  # several feeds can belong to one outlet
         s.setdefault("scope", "all")
+        s.setdefault("rated", True)  # False = specialist outlet, excluded from left/right coverage
     return sources
 
 
@@ -74,6 +75,7 @@ def fetch_source(src: dict) -> tuple[list[dict], dict]:
             "id": hashlib.sha1(link.split("?")[0].encode()).hexdigest()[:16],
             "outlet": src["outlet"],
             "lean": src["lean"],
+            "rated": src["rated"],
             "lang": src["lang"],
             "scope": src["scope"],
             "title": title,

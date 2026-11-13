@@ -1,8 +1,10 @@
 "use strict";
 /* Daily Digest — client app. Renders data/stories.json (or an archive day). */
 
-const LEAN = { "-2": "Left", "-1": "Lean left", "0": "Center", "1": "Lean right", "2": "Right" };
-const LEANVAR = { "-2": "--l2", "-1": "--l1", "0": "--c0", "1": "--r1", "2": "--r2" };
+const LEAN = { "-2": "Left", "-1": "Lean left", "0": "Center", "1": "Lean right", "2": "Right", "u": "Specialist press (not rated)" };
+const LEANVAR = { "-2": "--l2", "-1": "--l1", "0": "--c0", "1": "--r1", "2": "--r2", "u": "--muted" };
+const GROUP_ORDER = ["-2", "-1", "0", "1", "2", "u"];
+const nRated = (s) => s.n_rated ?? s.n_outlets;
 const DEFAULT_F = { region: "all", topic: "all", cov: "all", lang: "all", min: "2", sort: "score" };
 
 const S = {
@@ -39,6 +41,7 @@ async function load(day = "") {
 
 /* ---------------------------------------------------------------- pieces */
 function bar(s, legend = true) {
+  if (!nRated(s)) return `<p class="legend" style="margin-top:8px">Specialist sources only · no left/right rating</p>`;
   const p = s.pct;
   const segs = ["L", "C", "R"].filter((k) => p[k]).map((k) => `<i class="${k}" style="width:${p[k]}%"></i>`).join("");
   return `<div class="bar">${segs}</div>` + (legend
@@ -102,13 +105,14 @@ function daySelect() {
 /* ---------------------------------------------------------------- views */
 function viewToday() {
   const d = S.data.digest;
-  const top = ids(d.top), ger = ids(d.germany);
+  const top = ids(d.top), ger = ids(d.germany), sci = ids(d.science);
   const bal = { L: 0, C: 0, R: 0 };
   for (const s of top) for (const k in bal) bal[k] += s.coverage[k];
   const tot = bal.L + bal.C + bal.R || 1;
   return header("Today", daySelect()) + `
     <section><h2>Top stories</h2>${list(top, { summary: true })}</section>
     ${ger.length ? `<section><h2>More from Germany</h2>${list(ger)}</section>` : ""}
+    ${sci.length ? `<section><h2>Science, tech &amp; space</h2>${list(sci)}</section>` : ""}
     <p class="foot">Coverage in today's top stories:
       <b style="color:var(--L)">L ${Math.round(100 * bal.L / tot)}%</b> ·
       C ${Math.round(100 * bal.C / tot)}% ·
@@ -147,7 +151,7 @@ function filterStories() {
     if (f.lang === "de" && !s.langs.includes("de")) return false;
     if (f.lang === "en" && !s.langs.includes("en")) return false;
     if (f.lang === "both" && s.langs.length < 2) return false;
-    if (f.cov === "balanced" && (s.pct.L >= 60 || s.pct.R >= 60 || s.n_outlets < 3)) return false;
+    if (f.cov === "balanced" && (s.pct.L >= 60 || s.pct.R >= 60 || nRated(s) < 3)) return false;
     if (f.cov === "left" && s.pct.L < 60) return false;
     if (f.cov === "right" && s.pct.R < 60) return false;
     if (f.cov === "blind" && !s.blindspot) return false;
@@ -198,9 +202,9 @@ function storySheet(s) {
   const hist = ["-2", "-1", "0", "1", "2"].map((k) =>
     `<div><b style="height:${(100 * s.lean_hist[k]) / max}%;background:var(${LEANVAR[k]})"></b><span>${s.lean_hist[k]}</span></div>`).join("");
   const groups = {};
-  for (const a of s.articles) (groups[a.lean] ||= []).push(a);
+  for (const a of s.articles) (groups[a.rated === false ? "u" : String(a.lean)] ||= []).push(a);
   const outlets = S.data.outlets || {};
-  const grp = Object.keys(groups).sort((a, b) => a - b).map((k) => `
+  const grp = GROUP_ORDER.filter((k) => groups[k]).map((k) => `
     <div class="grp"><h4 style="color:var(${LEANVAR[k]})"><i style="background:var(${LEANVAR[k]})"></i>${LEAN[k]}</h4>
     ${groups[k].map((a) => {
       const o = outlets[a.outlet] || {};
@@ -217,10 +221,11 @@ function storySheet(s) {
     ${s.summary ? `<p class="sum">${esc(s.summary)}</p>` : ""}
     <a class="lead" href="${esc(s.link)}" target="_blank" rel="noopener">Read at ${esc(s.lead_outlet)} ›</a>
     ${blind}
-    <div class="box"><h4>Coverage</h4>${bar(s)}<div class="hist">${hist}</div>
-      <div class="legend" style="margin-top:2px"><span>Left</span><span>Center</span><span>Right</span></div></div>
+    ${nRated(s) ? `<div class="box"><h4>Political coverage · ${nRated(s)} rated outlets</h4>${bar(s)}<div class="hist">${hist}</div>
+      <div class="legend" style="margin-top:2px"><span>Left</span><span>Center</span><span>Right</span></div></div>`
+      : `<div class="box"><h4>Political coverage</h4><p class="legend">Only specialist outlets (science/tech/space) cover this so far. They are not rated left/right.</p></div>`}
     <div class="box facts">
-      <div><b>${s.n_outlets}</b>outlets</div><div><b>${s.n_articles}</b>articles</div>
+      <div><b>${s.n_outlets}</b>outlets${s.n_outlets !== nRated(s) ? ` (${nRated(s)} rated)` : ""}</div><div><b>${s.n_articles}</b>articles</div>
       <div><b>${esc(s.first_outlet)}</b>reported first</div><div><b>${ago(s.first_seen)}</b>first seen</div>
     </div>
     <div class="box"><h4>Sources</h4>${grp}</div>
@@ -229,15 +234,19 @@ function storySheet(s) {
 
 function sourcesSheet() {
   const o = S.data.outlets || {};
-  const rows = Object.entries(o).sort((a, b) => a[1].lean - b[1].lean || a[0].localeCompare(b[0])).map(([name, x]) => `
+  const key = (x) => (x.rated === false ? 9 : x.lean);
+  const rows = Object.entries(o).sort((a, b) => key(a[1]) - key(b[1]) || a[0].localeCompare(b[0])).map(([name, x]) => {
+    const g = x.rated === false ? "u" : String(x.lean);
+    return `
     <div class="outlet-row"><div><span class="dot ${x.ok === false ? "bad" : "ok"}"></span><b>${esc(name)}</b>
       <small>${esc(x.owner)} · ${x.lang.toUpperCase()} · factuality ${esc(x.factuality)}</small></div>
-      <div style="text-align:right;color:var(${LEANVAR[String(x.lean)]});font-weight:600;font-size:13px">${LEAN[String(x.lean)]}
-      <small>${x.n} articles</small></div></div>`).join("");
-  const by = { L: 0, C: 0, R: 0 };
-  for (const x of Object.values(o)) if (x.ok !== false) by[x.lean < 0 ? "L" : x.lean > 0 ? "R" : "C"]++;
+      <div style="text-align:right;color:var(${LEANVAR[g]});font-weight:600;font-size:13px;white-space:nowrap">${g === "u" ? "Specialist" : LEAN[g]}
+      <small>${x.n} articles</small></div></div>`;
+  }).join("");
+  const by = { L: 0, C: 0, R: 0, U: 0 };
+  for (const x of Object.values(o)) if (x.ok !== false) by[x.rated === false ? "U" : x.lean < 0 ? "L" : x.lean > 0 ? "R" : "C"]++;
   return `<p class="note" style="margin:0 0 10px">Working outlets: <b style="color:var(--L)">${by.L} left</b> ·
-    ${by.C} center · <b style="color:var(--R)">${by.R} right</b>. A red dot means the feed failed on the last run.
+    ${by.C} center · <b style="color:var(--R)">${by.R} right</b> · ${by.U} specialist (science/tech/space, not rated). A red dot means the feed failed on the last run.
     Edit labels in <code>sources.yaml</code>.</p>${rows}`;
 }
 

@@ -32,16 +32,19 @@ def build_stories(articles: list[dict], clusters: list[list[int]], X: np.ndarray
         for a in arts:
             outlets.setdefault(a["outlet"], a)
         n = len(outlets)
+        # Only rated outlets count toward the political coverage; specialists are listed separately.
+        rated = [a for a in outlets.values() if a.get("rated", True)]
+        n_rated = len(rated)
         cov = {"L": 0, "C": 0, "R": 0}
         hist = {str(k): 0 for k in range(-2, 3)}
-        for a in outlets.values():
+        for a in rated:
             cov[side(a["lean"])] += 1
             hist[str(a["lean"])] += 1
-        pct = {k: round(100 * v / n) for k, v in cov.items()}
+        pct = {k: round(100 * v / n_rated) if n_rated else 0 for k, v in cov.items()}
 
         partisan = cov["L"] + cov["R"]
         blindspot = None
-        if n >= dcfg["blindspot_min_sources"] and partisan >= 2:
+        if n_rated >= dcfg["blindspot_min_sources"] and partisan >= 2:
             if cov["L"] / partisan >= dcfg["blindspot_share"] and cov["R"] <= 1:
                 blindspot = "R"  # the right barely covers it
             elif cov["R"] / partisan >= dcfg["blindspot_share"] and cov["L"] <= 1:
@@ -55,7 +58,7 @@ def build_stories(articles: list[dict], clusters: list[list[int]], X: np.ndarray
         cnorm = centroid / (np.linalg.norm(centroid) + 1e-9)
         sims = V @ cnorm / (np.linalg.norm(V, axis=1) + 1e-9)
         order = np.argsort(-sims)
-        center_first = [i for i in order if arts[i]["lean"] == 0] or list(order)
+        center_first = [i for i in order if arts[i]["lean"] == 0 and arts[i].get("rated", True)] or list(order)
         lead = arts[center_first[0]]
 
         topic = None
@@ -84,6 +87,7 @@ def build_stories(articles: list[dict], clusters: list[list[int]], X: np.ndarray
             "lead_outlet": lead["outlet"],
             "first_outlet": first["outlet"],
             "n_outlets": n,
+            "n_rated": n_rated,
             "n_articles": len(arts),
             "coverage": cov,
             "pct": pct,
@@ -96,7 +100,8 @@ def build_stories(articles: list[dict], clusters: list[list[int]], X: np.ndarray
             "latest": times[-1].isoformat(),
             "score": round(score, 3),
             "articles": [
-                {k: a[k] for k in ("outlet", "lean", "lang", "title", "link", "published")}
+                {**{k: a[k] for k in ("outlet", "lean", "lang", "title", "link", "published")},
+                 "rated": a.get("rated", True)}
                 for a in sorted(arts, key=lambda a: (a["lean"], a["outlet"], a["published"]))
             ],
         })
@@ -109,5 +114,7 @@ def select_digest(stories: list[dict], cfg: dict) -> dict:
     top = [s for s in stories if s["n_outlets"] >= d["min_sources_top"]][: d["top_stories"]]
     shown = {s["id"] for s in top}
     germany = [s for s in stories if s["germany"] and s["id"] not in shown and s["n_outlets"] >= 2][: d["germany_stories"]]
+    sci = [s["id"] for s in stories if s["topic"] in d.get("science_topics", []) and s["id"] not in shown
+           and s["n_outlets"] >= 2][: d.get("science_stories", 8)]
     blind = {k: [s["id"] for s in stories if s["blindspot"] == k][: d["blindspots_per_side"]] for k in ("L", "R")}
-    return {"top": [s["id"] for s in top], "germany": [s["id"] for s in germany], "blindspots": blind}
+    return {"top": [s["id"] for s in top], "germany": [s["id"] for s in germany], "science": sci, "blindspots": blind}
