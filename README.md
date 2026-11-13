@@ -43,8 +43,15 @@ python -m newsdigest build && open site/index.html
 | `newsdigest/fetch.py` | RSS → rolling store `data/articles.json.gz` (72 h) |
 | `newsdigest/cluster.py` | multilingual embeddings + agglomerative clustering |
 | `newsdigest/analyze.py` | coverage, blindspots, Germany flag, ranking |
-| `newsdigest/render.py` + `templates/` | `site/index.html`, `site/digest.json`, daily archive |
+| `newsdigest/render.py` | `site/data/stories.json` + daily `site/archive/*.json` |
+| `static/` | the app: `index.html`, `app.js`, `app.css`, `sw.js` (offline), icons |
 | `tests/make_sample.py` | fictional offline test data (`--backend tfidf` needs no model) |
 
-## Next (weekend 2–3)
+## App
+Tabs: **Today** (top stories, archive picker), **Germany** (all German stories, topic filter),
+**Blindspots** (missed by right / left), **Explore** (search + filters: region, topic, coverage,
+language, number of sources, sort). Tap a story for coverage breakdown, factuality and all sources.
+*Today → Sources & feed status* shows which feeds are working. Works offline with the last data.
+
+## Next (weekend 3)
 LLM framing comparison per story, morning push notification, "my bias" reading tracker.

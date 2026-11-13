@@ -15,7 +15,9 @@ from pathlib import Path
 import yaml
 
 from .analyze import build_stories, select_digest
-from .cluster import cluster
+import json
+
+from .cluster import cluster, topic_vectors
 from .fetch import fetch_all, load_sources, load_store
 from .render import render
 
@@ -43,8 +45,9 @@ def main() -> None:
         key = "distance_threshold" if cfg["clustering"]["backend"] == "embedding" else "tfidf_distance_threshold"
         cfg["clustering"][key] = args.threshold
 
+    sources = load_sources(ROOT / "sources.yaml")
     if args.cmd in ("fetch", "run"):
-        store = fetch_all(load_sources(ROOT / "sources.yaml"), STORE, cfg["keep_hours"])
+        store = fetch_all(sources, STORE, cfg["keep_hours"])
     else:
         store = load_store(STORE)
     if args.cmd == "fetch":
@@ -52,20 +55,23 @@ def main() -> None:
 
     articles = recent(store, cfg["window_hours"])
     clusters, X = cluster(articles, cfg["clustering"])
-    stories = build_stories(articles, clusters, X, cfg)
+    topics = topic_vectors(cfg.get("topics", {}), cfg["clustering"])
+    stories = build_stories(articles, clusters, X, cfg, topics)
 
     if args.cmd == "inspect":
         for s in stories[:40]:
             if s["n_articles"] < 2:
                 continue
-            flags = " ".join(f for f, on in [("DE", s["germany"]), (f"BLIND-{s['blindspot']}", s["blindspot"])] if on)
+            flags = " ".join(f for f, on in [("DE", s["germany"]), (f"BLIND-{s['blindspot']}", s["blindspot"]),
+                                              (s["topic"] or "", s["topic"])] if on)
             print(f"\n[{s['n_outlets']} outlets  L{s['coverage']['L']} C{s['coverage']['C']} R{s['coverage']['R']}  {flags}]")
-            for g in s["groups"]:
-                for a in g["articles"]:
-                    print(f"   {a['lean']:+d} {a['outlet'][:18]:18} {a['title'][:95]}")
+            for a in s["articles"]:
+                print(f"   {a['lean']:+d} {a['outlet'][:18]:18} {a['title'][:95]}")
         return
 
-    out = render(select_digest(stories, cfg), articles, ROOT / "site", ROOT / "static")
+    status_file = STORE.parent / "feed_status.json"
+    status = json.loads(status_file.read_text()) if status_file.exists() else {}
+    out = render(stories, select_digest(stories, cfg), articles, sources, status, ROOT / "site", ROOT / "static")
     logging.info("wrote %s", out)
 
 

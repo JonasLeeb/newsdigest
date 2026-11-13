@@ -27,3 +27,19 @@ germany:
              Landtag, CDU, CSU, SPD, AfD, Grüne, Grünen, FDP, BSW, Linke, Berlin, Bayern,
              Sachsen, Thüringen, Brandenburg, Hessen, Niedersachsen, Nordrhein-Westfalen,
              NRW, Baden-Württemberg, Hamburg, München, Köln, Frankfurt, Deutsche Bahn, Deutschen Bahn, Bundesbank]
+
+# Topic tagging: each story goes to the topic whose phrases are closest to it
+# (multilingual embeddings, so German and English phrases both work).
+topic_min_similarity: 0.18
+topics:
+  Politics:   [Politik Regierung Parlament Koalition Partei Wahl, politics government parliament coalition party election, Gesetz Minister Kanzler Bundestag, president prime minister vote]
+  Economy:    [Wirtschaft Unternehmen Börse Inflation Konjunktur, economy business markets inflation companies, Arbeitsmarkt Jobs Löhne Industrie, trade tariffs banks interest rates]
+  Conflict:   [Krieg Militär Angriff Armee Waffen, war military attack troops weapons, Ukraine Russland Nahost Gaza Israel, ceasefire missile strike defence NATO]
+  Migration:  [Migration Asyl Flüchtlinge Abschiebung Grenze, migration asylum refugees deportation border]
+  Climate:    [Klima Umwelt Energie Wetter Hitze Unwetter, climate environment energy emissions weather storm, Klimaschutz Erneuerbare CO2, renewable energy pollution]
+  Justice:    [Gericht Urteil Polizei Ermittlungen Prozess Kriminalität, court ruling police investigation trial crime]
+  Tech:       [Technologie künstliche Intelligenz Software Internet Digitalisierung, technology artificial intelligence software tech companies, Wissenschaft Forschung Raumfahrt, science research space]
+  Health:     [Gesundheit Krankenhaus Medizin Krankheit Pflege, health hospital medicine disease healthcare]
+  Society:    [Gesellschaft Bildung Schule Familie Wohnen Mieten Verkehr Bahn, society education schools housing transport]
+  Sport:      [Fußball Bundesliga Sport Spiel Tor Trainer, football soccer sport match game coach championship]
+  Culture:    [Kultur Kino Film Musik Kunst Buch Promi, culture film music art books celebrity]

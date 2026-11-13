@@ -49,7 +49,7 @@ jobs:
         run: |
           git config user.name "digest-bot"
           git config user.email "digest-bot@users.noreply.github.com"
-          git add data/articles.json.gz site/archive
+          git add data/articles.json.gz data/feed_status.json site/archive
           git diff --cached --quiet || git commit -m "digest $(date -u +%Y-%m-%dT%H:%MZ)"
           git push
 

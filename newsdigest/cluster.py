@@ -1,12 +1,24 @@
-"""Group articles about the same event into stories."""
+"""Group articles about the same event into stories, and tag topics."""
 from __future__ import annotations
 
 import logging
+from functools import lru_cache
 
 import numpy as np
 from sklearn.cluster import AgglomerativeClustering
 
 log = logging.getLogger(__name__)
+
+
+@lru_cache(maxsize=1)
+def _model(name: str):
+    from sentence_transformers import SentenceTransformer
+
+    return SentenceTransformer(name)
+
+
+def encode(texts: list[str], cfg: dict) -> np.ndarray:
+    return _model(cfg["model"]).encode(texts, batch_size=64, normalize_embeddings=True, show_progress_bar=False)
 
 
 def _text(a: dict) -> str:
@@ -15,19 +27,16 @@ def _text(a: dict) -> str:
 
 
 def embed(articles: list[dict], cfg: dict) -> np.ndarray:
-    backend = cfg["backend"]
     texts = [_text(a) for a in articles]
-    if backend == "embedding":
-        from sentence_transformers import SentenceTransformer
-
-        model = SentenceTransformer(cfg["model"])
-        return model.encode(texts, batch_size=64, normalize_embeddings=True, show_progress_bar=False)
-    if backend == "tfidf":
+    if cfg["backend"] == "embedding":
+        return encode(texts, cfg)
+    if cfg["backend"] == "tfidf":
         from sklearn.feature_extraction.text import TfidfVectorizer
 
         X = TfidfVectorizer(analyzer="char_wb", ngram_range=(3, 5), sublinear_tf=True).fit_transform(texts)
-        return X.toarray()
-    raise ValueError(f"unknown clustering backend {backend!r}")
+        X = X.toarray()
+        return X / (np.linalg.norm(X, axis=1, keepdims=True) + 1e-9)
+    raise ValueError(f"unknown clustering backend {cfg['backend']!r}")
 
 
 def cluster(articles: list[dict], cfg: dict) -> tuple[list[list[int]], np.ndarray]:
@@ -46,3 +55,15 @@ def cluster(articles: list[dict], cfg: dict) -> tuple[list[list[int]], np.ndarra
     log.info("%d articles -> %d clusters (%d with 3+ articles)",
              len(articles), len(clusters), sum(len(c) >= 3 for c in clusters))
     return clusters, X
+
+
+def topic_vectors(topics: dict[str, list[str]], cfg: dict) -> tuple[list[str], np.ndarray] | None:
+    """One prototype vector per topic (mean of its DE+EN descriptor phrases)."""
+    if cfg["backend"] != "embedding" or not topics:
+        return None
+    names, vecs = [], []
+    for name, phrases in topics.items():
+        v = encode(phrases, cfg).mean(axis=0)
+        names.append(name)
+        vecs.append(v / np.linalg.norm(v))
+    return names, np.stack(vecs)

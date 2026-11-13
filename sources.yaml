@@ -8,6 +8,7 @@
 # factuality: high | mostly | mixed
 # scope: de  -> feed is domestic German news (counts toward "Deutschland")
 #        all -> general / world feed
+# url may be a list: the first one that works is used.
 # A feed that fails to load is skipped with a warning, so dead URLs don't break runs.
 
 sources:
@@ -30,10 +31,11 @@ sources:
   - {name: FAZ,                 lean: 1,  lang: de, factuality: high,   owner: "FAZIT-Stiftung",                scope: all, url: "https://www.faz.net/rss/aktuell/"}
   - {name: FAZ Politik Inland,  lean: 1,  lang: de, factuality: high,   owner: "FAZIT-Stiftung",                scope: de,  url: "https://www.faz.net/rss/aktuell/politik/inland/", outlet: FAZ}
   - {name: Die Welt,            lean: 1,  lang: de, factuality: high,   owner: "Axel Springer",                 scope: all, url: "https://www.welt.de/feeds/latest.rss"}
-  - {name: Focus,               lean: 1,  lang: de, factuality: mostly, owner: "Hubert Burda Media",            scope: all, url: "https://rss.focus.de/fol/XML/rss_folnews.xml"}
+  - {name: Focus,               lean: 1,  lang: de, factuality: mostly, owner: "Hubert Burda Media",            scope: all, url: ["https://rss.focus.de/fol/XML/rss_folnews.xml", "https://www.focus.de/rss", "https://rss.focus.de/fol/XML/rss_folnews_politik.xml"]}
   - {name: NZZ,                 lean: 1,  lang: de, factuality: high,   owner: "NZZ AG (Swiss)",                scope: all, url: "https://www.nzz.ch/recent.rss"}
   - {name: Cicero,              lean: 1,  lang: de, factuality: mostly, owner: "Res Publica Verlag",            scope: all, url: "https://www.cicero.de/rss.xml"}
   - {name: Bild,                lean: 1,  lang: de, factuality: mixed,  owner: "Axel Springer",                 scope: all, url: "https://www.bild.de/feed/alles.xml"}
+  - {name: Apollo News,         lean: 2,  lang: de, factuality: mixed,  owner: "Apollo News GmbH",              scope: all, url: "https://apollo-news.net/feed/"}
   - {name: Tichys Einblick,     lean: 2,  lang: de, factuality: mixed,  owner: "Tichys Einblick GmbH",          scope: all, url: "https://www.tichyseinblick.de/feed/"}
   - {name: Junge Freiheit,      lean: 2,  lang: de, factuality: mixed,  owner: "Junge Freiheit Verlag",         scope: all, url: "https://jungefreiheit.de/feed/"}
 
@@ -47,7 +49,10 @@ sources:
   - {name: Politico Europe,     lean: 0,  lang: en, factuality: high,   owner: "Axel Springer",                 scope: all, url: "https://www.politico.eu/feed/"}
   - {name: Euronews,            lean: 0,  lang: en, factuality: mostly, owner: "Alpac Capital",                 scope: all, url: "https://www.euronews.com/rss"}
   - {name: The Local Germany,   lean: 0,  lang: en, factuality: mostly, owner: "The Local Europe AB",           scope: de,  url: "https://www.thelocal.de/feeds/rss.php"}
-  - {name: Wall Street Journal, lean: 1,  lang: en, factuality: high,   owner: "News Corp (Murdoch)",           scope: all, url: "https://feeds.a.dj.com/rss/RSSWorldNews.xml"}
-  - {name: The Telegraph,       lean: 1,  lang: en, factuality: mostly, owner: "Telegraph Media Group",         scope: all, url: "https://www.telegraph.co.uk/news/rss.xml"}
+  - {name: Wall Street Journal, lean: 1,  lang: en, factuality: high,   owner: "News Corp (Murdoch)",           scope: all, url: ["https://feeds.content.dowjones.io/public/rss/RSSWorldNews", "https://feeds.a.dj.com/rss/RSSWorldNews.xml"]}
+  - {name: The Telegraph,       lean: 1,  lang: en, factuality: mostly, owner: "Telegraph Media Group",         scope: all, url: ["https://www.telegraph.co.uk/rss.xml", "https://www.telegraph.co.uk/news/rss.xml", "https://www.telegraph.co.uk/world-news/rss.xml"]}
+  - {name: The Spectator,       lean: 1,  lang: en, factuality: mostly, owner: "Press Holdings",                scope: all, url: ["https://www.spectator.co.uk/feed", "https://www.spectator.co.uk/feed/"]}
+  - {name: New York Post,       lean: 1,  lang: en, factuality: mixed,  owner: "News Corp (Murdoch)",           scope: all, url: "https://nypost.com/feed/"}
   - {name: Fox News,            lean: 2,  lang: en, factuality: mixed,  owner: "Fox Corporation (Murdoch)",     scope: all, url: "https://moxie.foxnews.com/google-publisher/world.xml"}
+  - {name: National Review,     lean: 2,  lang: en, factuality: mostly, owner: "National Review Inc.",          scope: all, url: "https://www.nationalreview.com/feed/"}
   - {name: spiked,              lean: 2,  lang: en, factuality: mixed,  owner: "spiked Ltd",                    scope: all, url: "https://www.spiked-online.com/feed/"}

@@ -42,14 +42,29 @@ def _entry_time(entry) -> datetime:
     return datetime.now(timezone.utc)
 
 
-def fetch_source(src: dict) -> list[dict]:
-    try:
-        r = requests.get(src["url"], headers={"User-Agent": UA}, timeout=20)
-        r.raise_for_status()
-        feed = feedparser.parse(r.content)
-    except Exception as e:  # noqa: BLE001 - a dead feed must never break the run
-        log.warning("feed failed: %-22s %s", src["name"], e)
-        return []
+def _get_feed(url: str):
+    r = requests.get(url, headers={"User-Agent": UA}, timeout=20)
+    r.raise_for_status()
+    feed = feedparser.parse(r.content)
+    if not feed.entries:
+        raise ValueError("feed has no entries")
+    return feed
+
+
+def fetch_source(src: dict) -> tuple[list[dict], dict]:
+    """Return (articles, status). `url` may be a list of fallbacks."""
+    urls = src["url"] if isinstance(src["url"], list) else [src["url"]]
+    feed, used, err = None, None, None
+    for url in urls:
+        try:
+            feed, used = _get_feed(url), url
+            break
+        except Exception as e:  # noqa: BLE001 - a dead feed must never break the run
+            err = f"{type(e).__name__}: {e}"[:200]
+    now = datetime.now(timezone.utc).isoformat()
+    if feed is None:
+        log.warning("feed failed: %-22s %s", src["name"], err)
+        return [], {"ok": False, "n": 0, "error": err, "time": now}
     out = []
     for e in feed.entries:
         link, title = e.get("link"), clean(e.get("title", ""), 200)
@@ -67,7 +82,7 @@ def fetch_source(src: dict) -> list[dict]:
             "published": _entry_time(e).isoformat(),
         })
     log.info("feed ok:     %-22s %3d items", src["name"], len(out))
-    return out
+    return out, {"ok": True, "n": len(out), "url": used, "time": now}
 
 
 def load_store(path: Path) -> dict[str, dict]:
@@ -86,7 +101,10 @@ def save_store(path: Path, store: dict[str, dict]) -> None:
 def fetch_all(sources: list[dict], store_path: Path, keep_hours: int) -> dict[str, dict]:
     store = load_store(store_path)
     with ThreadPoolExecutor(max_workers=12) as pool:
-        batches = list(pool.map(fetch_source, sources))
+        results = list(pool.map(fetch_source, sources))
+    batches = [r[0] for r in results]
+    status = {s["name"]: r[1] for s, r in zip(sources, results)}
+    (store_path.parent / "feed_status.json").write_text(json.dumps(status, indent=1), encoding="utf-8")
     new = 0
     for batch in batches:
         for a in batch:

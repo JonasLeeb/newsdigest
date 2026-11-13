@@ -1,4 +1,4 @@
-"""Render the digest to static HTML + JSON."""
+"""Write the app data (JSON) and copy the static app shell into site/."""
 from __future__ import annotations
 
 import json
@@ -7,38 +7,47 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from jinja2 import Environment, FileSystemLoader, select_autoescape
-
 TZ = ZoneInfo("Europe/Berlin")
-HERE = Path(__file__).parent
 
 
-def render(digest: dict, articles: list[dict], site: Path, static: Path) -> Path:
+def render(stories: list[dict], digest: dict, articles: list[dict], sources: list[dict],
+           feed_status: dict, site: Path, static: Path) -> Path:
     now = datetime.now(TZ)
-    env = Environment(loader=FileSystemLoader(HERE / "templates"), autoescape=select_autoescape())
-    tpl = env.get_template("digest.html.j2")
-    ctx = dict(
-        digest=digest,
-        date_label=now.strftime("%a %d %b %Y"),
-        updated=now.strftime("%H:%M"),
-        n_articles=len(articles),
-        n_outlets=len({a["outlet"] for a in articles}),
-    )
+    outlets = {}
+    for s in sources:
+        o = outlets.setdefault(s["outlet"], {k: s[k] for k in ("lean", "lang", "factuality", "owner")})
+        st = feed_status.get(s["name"])
+        if st:  # an outlet with several feeds is ok if any of them is
+            o["ok"] = o.get("ok", False) or st["ok"]
+            o["checked"] = st["time"]
+    counts: dict[str, int] = {}
+    for a in articles:
+        counts[a["outlet"]] = counts.get(a["outlet"], 0) + 1
+    for name, o in outlets.items():
+        o["n"] = counts.get(name, 0)
+
+    payload = {
+        "generated": now.isoformat(),
+        "n_articles": len(articles),
+        "outlets": outlets,
+        "digest": digest,
+        "stories": [s for s in stories if s["n_outlets"] >= 2 or s["n_articles"] >= 1],
+    }
+    body = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+
     site.mkdir(parents=True, exist_ok=True)
+    (site / "data").mkdir(exist_ok=True)
     (site / "archive").mkdir(exist_ok=True)
-    (site / "index.html").write_text(tpl.render(root="", **ctx), encoding="utf-8")
-    # One archive page per day; later runs on the same day overwrite it.
-    (site / "archive" / f"{now:%Y-%m-%d}.html").write_text(tpl.render(root="../", **ctx), encoding="utf-8")
-    (site / "digest.json").write_text(
-        json.dumps({"generated": now.isoformat(), **digest}, ensure_ascii=False, indent=1), encoding="utf-8"
-    )
-    days = sorted((p.stem for p in (site / "archive").glob("20*.html")), reverse=True)
-    links = "".join(f'<li><a href="{d}.html">{d}</a></li>' for d in days)
-    (site / "archive" / "index.html").write_text(
-        '<!DOCTYPE html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
-        '<title>Archive</title><style>body{font:16px -apple-system,system-ui;padding:20px;line-height:2}'
-        f'@media(prefers-color-scheme:dark){{body{{background:#141414;color:#eee}}a{{color:#8ab}}}}</style>'
-        f'<h1>Archive</h1><p><a href="../">← Today</a></p><ul>{links}</ul>', encoding="utf-8")
+    (site / "data" / "stories.json").write_text(body, encoding="utf-8")
+    # One archive snapshot per day; later runs on the same day overwrite it.
+    (site / "archive" / f"{now:%Y-%m-%d}.json").write_text(body, encoding="utf-8")
+    days = sorted((p.stem for p in (site / "archive").glob("20*.json")), reverse=True)
+    (site / "archive" / "index.json").write_text(json.dumps(days), encoding="utf-8")
+
     for f in static.iterdir():
-        shutil.copy(f, site / f.name)
+        if f.is_file():
+            shutil.copy(f, site / f.name)
+    # Bust the service-worker cache on every build.
+    sw = site / "sw.js"
+    sw.write_text(sw.read_text(encoding="utf-8").replace("__BUILD__", now.strftime("%Y%m%d%H%M%S")), encoding="utf-8")
     return site / "index.html"
