@@ -4,6 +4,7 @@ fetch    pull all feeds into data/articles.json.gz
 build    cluster the last window_hours and write site/
 run      fetch + build (what the GitHub Action does)
 inspect  print clusters to the terminal, for tuning distance_threshold
+radar    run only the private topic radar (needs RADAR_PASSPHRASE)
 """
 from __future__ import annotations
 
@@ -17,7 +18,8 @@ import yaml
 from .analyze import build_stories, select_digest
 import json
 
-from .cluster import cluster, topic_vectors
+from .cluster import cluster, encode, topic_vectors
+from .radar import run_radar
 from .fetch import fetch_all, load_sources, load_store
 from .render import render
 
@@ -32,7 +34,7 @@ def recent(store: dict, hours: int) -> list[dict]:
 
 def main() -> None:
     p = argparse.ArgumentParser(prog="newsdigest")
-    p.add_argument("cmd", choices=["fetch", "build", "run", "inspect"])
+    p.add_argument("cmd", choices=["fetch", "build", "run", "inspect", "radar"])
     p.add_argument("--backend", choices=["embedding", "tfidf"], help="override clustering backend")
     p.add_argument("--threshold", type=float, help="override distance threshold")
     args = p.parse_args()
@@ -69,10 +71,21 @@ def main() -> None:
                 print(f"   {a['lean']:+d} {a['outlet'][:18]:18} {a['title'][:95]}")
         return
 
+    if args.cmd == "radar":  # radar only (uses the same article window)
+        emb = cfg["clustering"]["backend"] == "embedding"
+        run_radar(ROOT, articles, X if emb else None, (lambda t: encode(t, cfg["clustering"])) if emb else None, cfg)
+        return
+
     status_file = STORE.parent / "feed_status.json"
     status = json.loads(status_file.read_text()) if status_file.exists() else {}
     out = render(stories, select_digest(stories, cfg), articles, sources, status, ROOT / "site", ROOT / "static")
     logging.info("wrote %s", out)
+    if args.cmd == "run":
+        emb = cfg["clustering"]["backend"] == "embedding"
+        try:  # the radar must never break the public digest
+            run_radar(ROOT, articles, X if emb else None, (lambda t: encode(t, cfg["clustering"])) if emb else None, cfg)
+        except BaseException as e:  # noqa: BLE001 - includes SystemExit from a wrong passphrase
+            logging.error("radar failed: %s", str(e)[:300])
 
 
 if __name__ == "__main__":

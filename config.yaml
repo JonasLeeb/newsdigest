@@ -47,3 +47,12 @@ topics:
   Society:    [Gesellschaft Bildung Schule Familie Wohnen Mieten Verkehr Bahn, society education schools housing transport]
   Sport:      [Fußball Bundesliga Sport Spiel Tor Trainer, football soccer sport match game coach championship]
   Culture:    [Kultur Kino Film Musik Kunst Buch Promi, culture film music art books celebrity]
+
+# Private topic radar (topics are edited in the app and stored encrypted).
+radar:
+  model: haiku                 # Claude model used to check candidates
+  similarity: 0.45             # embedding similarity to the topic description to count as a match
+  lookback_days: 3             # how far back the Google News / arXiv searches look
+  max_candidates_per_topic: 40
+  batch_size: 60               # candidates per Claude call
+  keep_days: 60                # how long event cards stay in the app

@@ -4,3 +4,4 @@ PyYAML>=6.0
 numpy>=1.26
 scikit-learn>=1.4
 sentence-transformers>=3.0
+cryptography>=42

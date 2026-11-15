@@ -35,6 +35,7 @@ jobs:
         run: |
           pip install torch --index-url https://download.pytorch.org/whl/cpu
           pip install -r requirements.txt
+          npm install -g @anthropic-ai/claude-code   # used by the private radar (claude -p)
 
       - name: Cache embedding model
         uses: actions/cache@v4
@@ -42,7 +43,11 @@ jobs:
           path: ~/.cache/huggingface
           key: hf-${{ hashFiles('config.yaml') }}
 
-      - name: Fetch + build
+      - name: Fetch + build (+ private radar)
+        env:
+          # Secrets only exist for runs of this repo (schedule, manual, own pushes) - never for forks/PRs.
+          RADAR_PASSPHRASE: ${{ secrets.RADAR_PASSPHRASE }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
         run: python -m newsdigest run
 
       - name: Commit article store and archive
@@ -50,7 +55,10 @@ jobs:
           git config user.name "digest-bot"
           git config user.email "digest-bot@users.noreply.github.com"
           git add data/articles.json.gz data/feed_status.json site/archive
+          [ -f data/radar_state.enc ] && git add data/radar_state.enc
           git diff --cached --quiet || git commit -m "digest $(date -u +%Y-%m-%dT%H:%MZ)"
+          # The app may have pushed new topics meanwhile: rebase onto it instead of failing.
+          git pull --rebase -X theirs origin main || git pull --rebase origin main
           git push
 
       - uses: actions/configure-pages@v5

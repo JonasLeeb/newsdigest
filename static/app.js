@@ -255,6 +255,17 @@ function route() {
   const h = location.hash.slice(1) || "today";
   const [name, arg] = h.split("/");
   const sheet = $("#sheet");
+  const ext = (window.RadarRoutes || {})[name];
+  if (ext && ext.guard && !ext.guard()) { location.hash = "today"; return; }
+  if (ext && ext.kind === "sheet") {
+    $("#sheet-title").textContent = ext.title(arg);
+    $("#sheet-body").innerHTML = ext.render(arg);
+    $("#sheet-body").scrollTop = 0;
+    sheet.hidden = false;
+    S.sheetOpen = true;
+    if (ext.after) ext.after(arg);
+    return;
+  }
   if (name === "story" || name === "sources") {
     const s = name === "story" ? S.byId[arg] : null;
     $("#sheet-title").textContent = s ? `${s.n_outlets} sources` : "Sources";
@@ -268,9 +279,11 @@ function route() {
   if (S.sheetOpen) { S.sheetOpen = false; if (S.tab === name) return; } // keep scroll position when closing a story
   S.tab = name;
   for (const a of document.querySelectorAll("#tabs a")) a.classList.toggle("on", a.dataset.tab === name);
-  const v = { today: viewToday, germany: viewGermany, blindspots: viewBlind, explore: viewExplore }[name] || viewToday;
+  const v = { today: viewToday, germany: viewGermany, blindspots: viewBlind, explore: viewExplore }[name]
+    || (ext && ext.kind === "tab" ? ext.render : viewToday);
   $("#view").innerHTML = v();
   if (name === "explore") renderResults();
+  if (ext && ext.kind === "tab" && ext.after) ext.after(arg);
   window.scrollTo(0, 0);
 }
 

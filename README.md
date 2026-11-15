@@ -55,3 +55,13 @@ language, number of sources, sort). Tap a story for coverage breakdown, factuali
 
 ## Next (weekend 3)
 LLM framing comparison per story, morning push notification, "my bias" reading tracker.
+
+## Private Radar
+A hidden tab for your own narrow topics (e.g. "new lidar sensors"). Unlock it on your phone by
+long-pressing the **Today** title (or opening `#unlock`) and entering the passphrase.
+
+- Topics are edited in the app and stored encrypted in `radar/topics.enc` (AES-256-GCM, PBKDF2).
+- Each run: matches from the news feeds + Google News + arXiv → Claude (`claude -p`, model in
+  `config.yaml → radar.model`) keeps only real events and groups them → encrypted `site/data/radar.enc`.
+- Secrets: `RADAR_PASSPHRASE`, `CLAUDE_CODE_OAUTH_TOKEN` (from `claude setup-token`).
+- Logs never contain topic names. Without Claude it falls back to keyword matching.

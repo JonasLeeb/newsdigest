@@ -118,3 +118,30 @@ mark{background:rgba(242,201,76,.45);color:inherit;border-radius:2px}
 .tabs svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .tabs a.on{color:var(--ink)}
 .search input::-webkit-search-cancel-button{-webkit-appearance:none;display:none}
+
+/* radar */
+.newdot{width:8px;height:8px;border-radius:50%;background:#e0453a;display:inline-block}
+.card .ent{font-size:12px;color:var(--muted);margin-top:6px;font-weight:600}
+.tchip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600}
+.tchip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.fb{display:flex;gap:8px;margin-top:14px}
+.fb button{flex:1;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:10px;font-size:14px;font-weight:600}
+.tform .fl{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:14px}
+.tform .fl small{font-weight:400}
+.tform input:not([type=checkbox]),.tform textarea,.box input{font-family:inherit;display:block;width:100%;margin-top:5px;border:1px solid var(--line);
+  background:var(--card);border-radius:10px;padding:10px 11px;font-size:16px;color:var(--ink);font-weight:400}
+.box .fl{display:block;font-size:13px;font-weight:600;color:var(--muted)}
+.cks{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.ck{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:999px;
+  padding:6px 11px;font-size:13px;font-weight:600;color:var(--ink)}
+.ck input{accent-color:var(--R)}
+.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{border:0;background:var(--field);border-radius:10px;padding:10px 16px;font-size:15px;font-weight:600;text-decoration:none;color:var(--ink);text-align:center}
+.btn.primary{background:var(--R);color:#fff}
+.btn.danger{color:#d24b3e}
+.btn.wide{display:block;margin-top:4px}
+.linkbtn{border:0;background:none;color:var(--R);font-weight:600;font-size:13px}
+.toast{position:fixed;left:50%;bottom:calc(var(--tabh) + env(safe-area-inset-bottom) + 14px);transform:translate(-50%,20px);
+  background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;
+  transition:all .25s;z-index:30;max-width:90vw;text-align:center;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}

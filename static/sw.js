@@ -1,6 +1,6 @@
 /* Offline support: app shell is cached; data is network-first with cache fallback. */
 const CACHE = "digest-__BUILD__";
-const SHELL = ["./", "index.html", "app.js", "app.css", "manifest.webmanifest", "icon-180.png", "icon-192.png"];
+const SHELL = ["./", "index.html", "app.js", "radar.js", "app.css", "manifest.webmanifest", "icon-180.png", "icon-192.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
@@ -15,7 +15,7 @@ self.addEventListener("activate", (e) => {
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== "GET" || url.origin !== location.origin) return;
-  const isData = url.pathname.endsWith(".json");
+  const isData = url.pathname.endsWith(".json") || url.pathname.endsWith(".enc");
   if (isData) {
     e.respondWith(fetch(e.request).then((r) => {
       const copy = r.clone();
