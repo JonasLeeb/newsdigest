@@ -62,7 +62,7 @@ def _parse_time(e) -> str:
     return NOW().isoformat()
 
 
-def google_news(query: str, lang: str, days: int) -> list[dict]:
+def google_news(query: str, lang: str, days: int, limit: int = 30) -> list[dict]:
     loc = {"en": "hl=en-US&gl=US&ceid=US:en", "de": "hl=de&gl=DE&ceid=DE:de"}[lang]
     url = f"https://news.google.com/rss/search?q={urllib.parse.quote(query + f' when:{days}d')}&{loc}"
     try:
@@ -72,7 +72,7 @@ def google_news(query: str, lang: str, days: int) -> list[dict]:
         log.warning("google news failed (%s): %s", lang, type(e).__name__)
         return []
     out = []
-    for e in feedparser.parse(r.content).entries[:30]:
+    for e in feedparser.parse(r.content).entries[:limit]:
         outlet = (e.get("source") or {}).get("title", "Google News")
         title = clean(e.get("title", ""), 220)
         if title.endswith(" - " + outlet):
@@ -82,9 +82,9 @@ def google_news(query: str, lang: str, days: int) -> list[dict]:
     return out
 
 
-def arxiv(query: str, days: int) -> list[dict]:
+def arxiv(query: str, days: int, limit: int = 25) -> list[dict]:
     q = urllib.parse.quote(f'all:"{query}"')
-    url = f"https://export.arxiv.org/api/query?search_query={q}&sortBy=submittedDate&sortOrder=descending&max_results=25"
+    url = f"https://export.arxiv.org/api/query?search_query={q}&sortBy=submittedDate&sortOrder=descending&max_results={limit}"
     try:
         r = requests.get(url, headers={"User-Agent": UA}, timeout=30)
         r.raise_for_status()
@@ -108,7 +108,10 @@ def _kw_re(words: list[str]):
     return re.compile(r"(?<!\w)(" + "|".join(map(re.escape, words)) + r")(?!\w)", re.I) if words else None
 
 
-def gather(topic: dict, tid: str, articles: list[dict], X: np.ndarray | None, encode, seen: dict, rcfg: dict) -> list[dict]:
+def gather(topic: dict, tid: str, articles: list[dict], X: np.ndarray | None, encode, seen: dict, rcfg: dict,
+           backfill: bool = False) -> list[dict]:
+    days = rcfg["backfill_days"] if backfill else rcfg["lookback_days"]
+    limit = rcfg["backfill_candidates"] if backfill else rcfg["max_candidates_per_topic"]
     kw = _kw_re(topic.get("keywords", []) + [topic["name"]])
     scored: dict[str, tuple[float, dict]] = {}
 
@@ -131,17 +134,17 @@ def gather(topic: dict, tid: str, articles: list[dict], X: np.ndarray | None, en
     if "paper" in topic.get("events", EVENT_TYPES):
         jobs += [("a", q, None) for q in queries[:2]]
     with ThreadPoolExecutor(max_workers=6) as pool:
-        results = pool.map(lambda j: google_news(j[1], j[2], rcfg["lookback_days"]) if j[0] == "g"
-                           else arxiv(j[1], rcfg["lookback_days"] + 2), jobs)
+        results = pool.map(lambda j: google_news(j[1], j[2], days, 60 if backfill else 30) if j[0] == "g"
+                           else arxiv(j[1], days + 2, 50 if backfill else 25), jobs)
     for batch in results:
         for a in batch:
             if a["id"] not in scored:
                 scored[a["id"]] = (0.9 if kw and kw.search(a["title"]) else 0.5, a)
 
-    fresh = [(s, a) for aid, (s, a) in scored.items() if aid not in seen]
+    fresh = [(s, a) for aid, (s, a) in scored.items() if f"{topic['id']}:{aid}" not in seen]
     fresh.sort(key=lambda x: (x[0], x[1]["published"]), reverse=True)
-    out = [a for _, a in fresh[: rcfg["max_candidates_per_topic"]]]
-    log.info("%s: %d matches, %d new candidates", tid, len(scored), len(out))
+    out = [a for _, a in fresh[:limit]]
+    log.info("%s: %d matches, %d new candidates%s", tid, len(scored), len(out), " (backfill)" if backfill else "")
     return out
 
 
@@ -231,19 +234,26 @@ def run_radar(root: Path, articles: list[dict], X: np.ndarray | None, encode, cf
     rcfg = cfg["radar"]
     doc = _load_enc(root / "radar" / "topics.enc", passphrase, {"topics": []})
     state = _load_enc(root / "data" / "radar_state.enc", passphrase, {"cards": [], "seen": {}})
-    cards, seen = state["cards"], state["seen"]
+    cards, seen, revs = state["cards"], state["seen"], state.get("revs", {})
     active = [t for t in doc.get("topics", []) if not t.get("paused")]
     topics = {f"T{i + 1}": t for i, t in enumerate(active)}
     log.info("%d active topics, %d cards in state", len(topics), len(cards))
 
+    # A new or edited topic (its definition changed) gets a 30-day backfill and a fresh look at old articles.
+    rev = lambda t: hashlib.sha1(json.dumps([t.get(k) for k in ("name", "description", "events", "keywords",  # noqa: E731
+                                                                   "queries", "langs")]).encode()).hexdigest()[:12]
     batch: list[tuple[str, dict]] = []
     for tid, t in topics.items():
-        batch += [(tid, a) for a in gather(t, tid, articles, X, encode, seen, rcfg)]
+        backfill = revs.get(t["id"]) != rev(t)
+        if backfill:
+            seen = {k: v for k, v in seen.items() if not k.startswith(t["id"] + ":")}
+        batch += [(tid, a) for a in gather(t, tid, articles, X, encode, seen, rcfg, backfill)]
 
     use_claude = _claude_available()
     if not use_claude and batch:
         log.warning("Claude not available (no claude CLI or token) - using keyword fallback")
     results: dict[str, dict] = {}
+    failed = False
     for i in range(0, len(batch), rcfg["batch_size"]):
         chunk = batch[i: i + rcfg["batch_size"]]
         if use_claude:
@@ -251,11 +261,12 @@ def run_radar(root: Path, articles: list[dict], X: np.ndarray | None, encode, cf
                 results.update(classify(chunk, topics, cards, rcfg["model"]))  # one call per chunk
             except Exception as e:  # noqa: BLE001 - keep candidates unseen, retry next run
                 log.warning("classification failed: %s", str(e)[:200])
+                failed = True
                 continue
         else:
             results.update({f"{tid}:{a['id']}": _fallback(a) for tid, a in chunk})
-        for _, a in chunk:
-            seen[a["id"]] = NOW().isoformat()
+        for tid, a in chunk:
+            seen[f"{topics[tid]['id']}:{a['id']}"] = NOW().isoformat()
 
     # merge accepted items into cards
     new_cards = 0
@@ -284,8 +295,12 @@ def run_radar(root: Path, articles: list[dict], X: np.ndarray | None, encode, cf
     cards = [c for c in by_key.values() if datetime.fromisoformat(c["updated"]) >= keep]
     seen_cut = NOW() - timedelta(days=21)
     seen = {k: v for k, v in seen.items() if datetime.fromisoformat(v) >= seen_cut}
-    _save_enc(root / "data" / "radar_state.enc", {"cards": cards, "seen": seen}, passphrase)
+    if not failed:  # only mark backfills done when every check succeeded
+        revs = {t["id"]: rev(t) for t in topics.values()}
+    _save_enc(root / "data" / "radar_state.enc", {"cards": cards, "seen": seen, "revs": revs}, passphrase)
     _save_enc(root / "site" / "data" / "radar.enc",
               {"generated": NOW().isoformat(), "topics": doc.get("topics", []),
                "cards": sorted(cards, key=lambda c: c["updated"], reverse=True),
-               "classifier": "claude" if use_claude else "keywords"}, passphrase)
+               "classifier": "claude" if use_claude else "keywords",
+               "stats": {"checked": len(batch), "kept": sum(1 for r in results.values() if r.get("relevant")),
+                         "new_events": new_cards, "failed": failed}}, passphrase)

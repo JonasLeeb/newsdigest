@@ -138,7 +138,10 @@ async function afterRadar() {
   let cards = d.cards.filter((c) => !hid.has(ckey(c)) && byId[c.topic]);
   if (R.topic !== "all") cards = cards.filter((c) => c.topic === R.topic);
   const nNew = d.cards.filter((c) => c.first_seen > lastSeen && !hid.has(ckey(c))).length;
+  const st = d.stats || {};
   $("#rd-sub").textContent = `Updated ${clock(d.generated)} · ${d.cards.length} events${nNew ? ` · ${nNew} new` : ""}` +
+    (st.checked != null ? ` · last run: ${st.checked} checked, ${st.kept} kept` : "") +
+    (st.failed ? " · ⚠️ Claude check failed" : "") +
     (d.classifier === "keywords" ? " · keyword mode (Claude not connected)" : "");
   const chips = topics.length > 1 ? `<div class="filters" style="padding:0 0 10px">
     ${[["all", "All"], ...topics.map((t) => [t.id, t.name])].map(([id, n]) =>

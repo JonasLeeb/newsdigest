@@ -54,5 +54,7 @@ radar:
   similarity: 0.45             # embedding similarity to the topic description to count as a match
   lookback_days: 3             # how far back the Google News / arXiv searches look
   max_candidates_per_topic: 40
+  backfill_days: 30            # new or edited topics look back this far on their first run
+  backfill_candidates: 100
   batch_size: 60               # candidates per Claude call
   keep_days: 60                # how long event cards stay in the app
