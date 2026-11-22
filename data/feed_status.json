@@ -3,624 +3,624 @@
   "ok": true,
   "n": 50,
   "url": "https://taz.de/!p4608;rss/",
-  "time": "2026-11-22T13:01:54.623417+00:00"
+  "time": "2026-11-22T15:01:49.600149+00:00"
  },
  "nd": {
   "ok": true,
   "n": 20,
   "url": "https://www.nd-aktuell.de/rss/aktuell.php",
-  "time": "2026-11-22T13:01:54.746301+00:00"
+  "time": "2026-11-22T15:01:49.675979+00:00"
  },
  "Frankfurter Rundschau": {
   "ok": true,
   "n": 40,
   "url": "https://www.fr.de/politik/rssfeed.rdf",
-  "time": "2026-11-22T13:01:54.255804+00:00"
+  "time": "2026-11-22T15:01:49.352270+00:00"
  },
  "Der Spiegel": {
   "ok": true,
   "n": 30,
   "url": "https://www.spiegel.de/schlagzeilen/index.rss",
-  "time": "2026-11-22T13:01:54.081102+00:00"
+  "time": "2026-11-22T15:01:49.216377+00:00"
  },
  "Der Spiegel Inland": {
   "ok": true,
   "n": 20,
   "url": "https://www.spiegel.de/politik/deutschland/index.rss",
-  "time": "2026-11-22T13:01:54.092005+00:00"
+  "time": "2026-11-22T15:01:49.205110+00:00"
  },
  "S\u00fcddeutsche Zeitung": {
   "ok": true,
   "n": 15,
   "url": "https://rss.sueddeutsche.de/rss/Topthemen",
-  "time": "2026-11-22T13:01:54.018417+00:00"
+  "time": "2026-11-22T15:01:49.252222+00:00"
  },
  "Die Zeit": {
   "ok": true,
   "n": 15,
   "url": "https://newsfeed.zeit.de/index",
-  "time": "2026-11-22T13:01:53.609461+00:00"
+  "time": "2026-11-22T15:01:48.909130+00:00"
  },
  "stern": {
   "ok": true,
   "n": 20,
   "url": "https://www.stern.de/feed/standard/alle-nachrichten/",
-  "time": "2026-11-22T13:01:53.768297+00:00"
+  "time": "2026-11-22T15:01:49.874233+00:00"
  },
  "tagesschau": {
   "ok": true,
-  "n": 67,
+  "n": 63,
   "url": "https://www.tagesschau.de/index~rss2.xml",
-  "time": "2026-11-22T13:01:54.531772+00:00"
+  "time": "2026-11-22T15:01:49.487637+00:00"
  },
  "tagesschau Inland": {
   "ok": true,
   "n": 49,
   "url": "https://www.tagesschau.de/inland/index~rss2.xml",
-  "time": "2026-11-22T13:01:54.342399+00:00"
+  "time": "2026-11-22T15:01:49.484884+00:00"
  },
  "ZDFheute": {
   "ok": true,
-  "n": 192,
+  "n": 194,
   "url": "https://www.zdf.de/rss/zdf/nachrichten",
-  "time": "2026-11-22T13:01:54.904593+00:00"
+  "time": "2026-11-22T15:01:50.657155+00:00"
  },
  "Deutschlandfunk": {
   "ok": true,
-  "n": 43,
+  "n": 46,
   "url": "https://www.deutschlandfunk.de/nachrichten-100.rss",
-  "time": "2026-11-22T13:01:54.237607+00:00"
+  "time": "2026-11-22T15:01:49.520556+00:00"
  },
  "n-tv": {
   "ok": true,
   "n": 50,
   "url": "https://www.n-tv.de/rss",
-  "time": "2026-11-22T13:01:53.849305+00:00"
+  "time": "2026-11-22T15:01:49.611154+00:00"
  },
  "Handelsblatt": {
   "ok": true,
   "n": 50,
   "url": "https://www.handelsblatt.com/contentexport/feed/schlagzeilen",
-  "time": "2026-11-22T13:01:53.944390+00:00"
+  "time": "2026-11-22T15:01:49.396763+00:00"
  },
  "DW Deutsch": {
   "ok": true,
-  "n": 79,
+  "n": 77,
   "url": "https://rss.dw.com/xml/rss-de-all",
-  "time": "2026-11-22T13:01:54.307752+00:00"
+  "time": "2026-11-22T15:01:49.556642+00:00"
  },
  "FAZ": {
   "ok": true,
-  "n": 165,
+  "n": 163,
   "url": "https://www.faz.net/rss/aktuell/",
-  "time": "2026-11-22T13:01:54.212205+00:00"
+  "time": "2026-11-22T15:01:51.093741+00:00"
  },
  "FAZ Politik Inland": {
   "ok": true,
   "n": 41,
   "url": "https://www.faz.net/rss/aktuell/politik/inland/",
-  "time": "2026-11-22T13:01:54.282420+00:00"
+  "time": "2026-11-22T15:01:51.125130+00:00"
  },
  "Die Welt": {
   "ok": true,
   "n": 30,
   "url": "https://www.welt.de/feeds/latest.rss",
-  "time": "2026-11-22T13:01:54.443309+00:00"
+  "time": "2026-11-22T15:01:49.902987+00:00"
  },
  "Focus": {
   "ok": true,
   "n": 400,
   "url": "https://www.focus.de/rss",
-  "time": "2026-11-22T13:01:56.200897+00:00"
+  "time": "2026-11-22T15:01:51.175714+00:00"
  },
  "NZZ": {
   "ok": true,
   "n": 14,
   "url": "https://www.nzz.ch/recent.rss",
-  "time": "2026-11-22T13:01:54.489629+00:00"
+  "time": "2026-11-22T15:01:49.664572+00:00"
  },
  "Cicero": {
   "ok": true,
   "n": 10,
   "url": "https://www.cicero.de/rss.xml",
-  "time": "2026-11-22T13:01:54.894927+00:00"
+  "time": "2026-11-22T15:01:50.253458+00:00"
  },
  "Bild": {
   "ok": true,
   "n": 50,
   "url": "https://www.bild.de/feed/alles.xml",
-  "time": "2026-11-22T13:01:54.481318+00:00"
+  "time": "2026-11-22T15:01:50.183893+00:00"
  },
  "Apollo News": {
   "ok": true,
   "n": 10,
   "url": "https://apollo-news.net/feed/",
-  "time": "2026-11-22T13:01:54.971924+00:00"
+  "time": "2026-11-22T15:01:50.344815+00:00"
  },
  "Tichys Einblick": {
   "ok": true,
   "n": 10,
   "url": "https://www.tichyseinblick.de/feed/",
-  "time": "2026-11-22T13:01:56.355539+00:00"
+  "time": "2026-11-22T15:01:51.878287+00:00"
  },
  "Junge Freiheit": {
   "ok": true,
   "n": 30,
   "url": "https://jungefreiheit.de/feed/",
-  "time": "2026-11-22T13:01:54.920654+00:00"
+  "time": "2026-11-22T15:01:50.138912+00:00"
  },
  "The Guardian": {
   "ok": true,
   "n": 45,
   "url": "https://www.theguardian.com/world/rss",
-  "time": "2026-11-22T13:01:54.581975+00:00"
+  "time": "2026-11-22T15:01:49.875647+00:00"
  },
  "The New York Times": {
   "ok": true,
   "n": 52,
   "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
-  "time": "2026-11-22T13:01:54.667503+00:00"
+  "time": "2026-11-22T15:01:50.030592+00:00"
  },
  "NPR": {
   "ok": true,
   "n": 10,
   "url": "https://feeds.npr.org/1004/rss.xml",
-  "time": "2026-11-22T13:01:54.632746+00:00"
+  "time": "2026-11-22T15:01:50.073443+00:00"
  },
  "Al Jazeera": {
   "ok": true,
   "n": 25,
   "url": "https://www.aljazeera.com/xml/rss/all.xml",
-  "time": "2026-11-22T13:01:54.736310+00:00"
+  "time": "2026-11-22T15:01:50.114949+00:00"
  },
  "BBC News": {
   "ok": true,
   "n": 28,
   "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
-  "time": "2026-11-22T13:01:54.785748+00:00"
+  "time": "2026-11-22T15:01:50.299554+00:00"
  },
  "DW English": {
   "ok": true,
   "n": 140,
   "url": "https://rss.dw.com/xml/rss-en-all",
-  "time": "2026-11-22T13:01:54.723801+00:00"
+  "time": "2026-11-22T15:01:50.516847+00:00"
  },
  "Politico Europe": {
   "ok": true,
   "n": 10,
   "url": "https://www.politico.eu/feed/",
-  "time": "2026-11-22T13:01:54.951820+00:00"
+  "time": "2026-11-22T15:01:50.238287+00:00"
  },
  "Euronews": {
-  "ok": true,
-  "n": 50,
-  "url": "https://www.euronews.com/rss",
-  "time": "2026-11-22T13:01:54.775737+00:00"
+  "ok": false,
+  "n": 0,
+  "error": "HTTPError: 406 Client Error: Not Acceptable for url: https://www.euronews.com/rss",
+  "time": "2026-11-22T15:01:50.216061+00:00"
  },
  "The Local Germany": {
   "ok": true,
   "n": 20,
   "url": "https://www.thelocal.de/feeds/rss.php",
-  "time": "2026-11-22T13:01:55.933267+00:00"
+  "time": "2026-11-22T15:01:51.576602+00:00"
  },
  "Wall Street Journal": {
   "ok": true,
   "n": 72,
   "url": "https://feeds.content.dowjones.io/public/rss/RSSWorldNews",
-  "time": "2026-11-22T13:01:54.834917+00:00"
+  "time": "2026-11-22T15:01:50.685577+00:00"
  },
  "The Telegraph": {
   "ok": true,
   "n": 120,
   "url": "https://www.telegraph.co.uk/rss.xml",
-  "time": "2026-11-22T13:01:55.028825+00:00"
+  "time": "2026-11-22T15:01:50.818581+00:00"
  },
  "The Spectator": {
   "ok": false,
   "n": 0,
   "error": "HTTPError: 404 Client Error: Not Found for url: https://spectator.com/feed/",
-  "time": "2026-11-22T13:01:56.948465+00:00"
+  "time": "2026-11-22T15:01:52.280404+00:00"
  },
  "New York Post": {
   "ok": true,
-  "n": 22,
+  "n": 23,
   "url": "https://nypost.com/feed/",
-  "time": "2026-11-22T13:01:55.993776+00:00"
+  "time": "2026-11-22T15:01:51.043902+00:00"
  },
  "Fox News": {
   "ok": true,
   "n": 25,
   "url": "https://moxie.foxnews.com/google-publisher/world.xml",
-  "time": "2026-11-22T13:01:55.112925+00:00"
+  "time": "2026-11-22T15:01:51.323275+00:00"
  },
  "National Review": {
   "ok": true,
   "n": 20,
   "url": "https://www.nationalreview.com/feed/",
-  "time": "2026-11-22T13:01:55.124156+00:00"
+  "time": "2026-11-22T15:01:51.008957+00:00"
  },
  "spiked": {
   "ok": true,
   "n": 10,
   "url": "https://www.spiked-online.com/feed/",
-  "time": "2026-11-22T13:01:55.612035+00:00"
+  "time": "2026-11-22T15:01:51.306827+00:00"
  },
  "Spiegel Wissenschaft": {
   "ok": true,
   "n": 20,
   "url": "https://www.spiegel.de/wissenschaft/index.rss",
-  "time": "2026-11-22T13:01:55.423432+00:00"
+  "time": "2026-11-22T15:01:51.214051+00:00"
  },
  "Spiegel Netzwelt": {
   "ok": true,
   "n": 20,
   "url": "https://www.spiegel.de/netzwelt/index.rss",
-  "time": "2026-11-22T13:01:55.476622+00:00"
+  "time": "2026-11-22T15:01:51.389914+00:00"
  },
  "tagesschau Wissen": {
   "ok": true,
   "n": 49,
   "url": "https://www.tagesschau.de/wissen/index~rss2.xml",
-  "time": "2026-11-22T13:01:55.647465+00:00"
+  "time": "2026-11-22T15:01:51.659205+00:00"
  },
  "Zeit Wissen": {
   "ok": false,
   "n": 0,
   "error": "HTTPError: 404 Client Error: Not Found for url: https://newsfeed.zeit.de/wissen/index",
-  "time": "2026-11-22T13:01:55.311830+00:00"
+  "time": "2026-11-22T15:01:51.493296+00:00"
  },
  "Zeit Digital": {
   "ok": true,
   "n": 15,
   "url": "https://newsfeed.zeit.de/digital/index",
-  "time": "2026-11-22T13:01:55.165357+00:00"
+  "time": "2026-11-22T15:01:51.354634+00:00"
  },
  "SZ Wissen": {
   "ok": true,
   "n": 15,
   "url": "https://rss.sueddeutsche.de/rss/Wissen",
-  "time": "2026-11-22T13:01:55.176135+00:00"
+  "time": "2026-11-22T15:01:51.305464+00:00"
  },
  "FAZ Wissen": {
   "ok": true,
   "n": 50,
   "url": "https://www.faz.net/rss/aktuell/wissen/",
-  "time": "2026-11-22T13:01:55.299230+00:00"
+  "time": "2026-11-22T15:01:51.642003+00:00"
  },
  "FAZ Technik": {
   "ok": true,
   "n": 21,
   "url": "https://www.faz.net/rss/aktuell/technik-motor/",
-  "time": "2026-11-22T13:01:55.346441+00:00"
+  "time": "2026-11-22T15:01:51.714887+00:00"
  },
  "Welt Wissenschaft": {
   "ok": true,
   "n": 30,
   "url": "https://www.welt.de/feeds/section/wissenschaft.rss",
-  "time": "2026-11-22T13:01:55.592572+00:00"
+  "time": "2026-11-22T15:01:51.686320+00:00"
  },
  "n-tv Wissen": {
   "ok": true,
   "n": 30,
   "url": "https://www.n-tv.de/wissen/rss",
-  "time": "2026-11-22T13:01:55.441937+00:00"
+  "time": "2026-11-22T15:01:51.377047+00:00"
  },
  "Deutschlandfunk Forschung": {
   "ok": true,
   "n": 200,
   "url": "https://www.deutschlandfunk.de/wissen-106.rss",
-  "time": "2026-11-22T13:01:57.258271+00:00"
+  "time": "2026-11-22T15:01:52.653927+00:00"
  },
  "Focus Wissen": {
   "ok": true,
   "n": 400,
   "url": "https://www.focus.de/wissen/rss",
-  "time": "2026-11-22T13:01:59.087738+00:00"
+  "time": "2026-11-22T15:01:53.638820+00:00"
  },
  "BBC Science": {
   "ok": true,
   "n": 42,
   "url": "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml",
-  "time": "2026-11-22T13:01:55.568975+00:00"
+  "time": "2026-11-22T15:01:51.721094+00:00"
  },
  "BBC Technology": {
   "ok": true,
   "n": 21,
   "url": "https://feeds.bbci.co.uk/news/technology/rss.xml",
-  "time": "2026-11-22T13:01:55.627034+00:00"
+  "time": "2026-11-22T15:01:51.542964+00:00"
  },
  "Guardian Science": {
   "ok": true,
   "n": 28,
   "url": "https://www.theguardian.com/science/rss",
-  "time": "2026-11-22T13:01:55.690904+00:00"
+  "time": "2026-11-22T15:01:51.562818+00:00"
  },
  "Guardian Technology": {
   "ok": true,
   "n": 36,
   "url": "https://www.theguardian.com/technology/rss",
-  "time": "2026-11-22T13:01:55.748505+00:00"
+  "time": "2026-11-22T15:01:51.889864+00:00"
  },
  "NYT Science": {
   "ok": true,
   "n": 42,
   "url": "https://rss.nytimes.com/services/xml/rss/nyt/Science.xml",
-  "time": "2026-11-22T13:01:55.779598+00:00"
+  "time": "2026-11-22T15:01:51.769275+00:00"
  },
  "NYT Space": {
   "ok": true,
   "n": 20,
   "url": "https://rss.nytimes.com/services/xml/rss/nyt/Space.xml",
-  "time": "2026-11-22T13:01:55.774486+00:00"
+  "time": "2026-11-22T15:01:51.736982+00:00"
  },
  "NYT Technology": {
   "ok": true,
   "n": 42,
   "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
-  "time": "2026-11-22T13:01:55.817002+00:00"
+  "time": "2026-11-22T15:01:51.830101+00:00"
  },
  "NPR Science": {
   "ok": true,
   "n": 10,
   "url": "https://feeds.npr.org/1007/rss.xml",
-  "time": "2026-11-22T13:01:55.788188+00:00"
+  "time": "2026-11-22T15:01:51.885741+00:00"
  },
  "Fox News Science": {
   "ok": true,
   "n": 25,
   "url": "https://moxie.foxnews.com/google-publisher/science.xml",
-  "time": "2026-11-22T13:01:56.330969+00:00"
+  "time": "2026-11-22T15:01:52.043718+00:00"
  },
  "NY Post Tech": {
   "ok": true,
   "n": 19,
   "url": "https://nypost.com/tech/feed/",
-  "time": "2026-11-22T13:01:56.193585+00:00"
+  "time": "2026-11-22T15:01:51.933584+00:00"
  },
  "Telegraph Science": {
   "ok": true,
   "n": 58,
   "url": "https://www.telegraph.co.uk/science/rss.xml",
-  "time": "2026-11-22T13:01:56.235165+00:00"
+  "time": "2026-11-22T15:01:52.652176+00:00"
  },
  "WSJ Tech": {
   "ok": true,
   "n": 40,
   "url": "https://feeds.content.dowjones.io/public/rss/RSSWSJD",
-  "time": "2026-11-22T13:01:56.017804+00:00"
+  "time": "2026-11-22T15:01:51.909741+00:00"
  },
  "heise online": {
   "ok": true,
   "n": 153,
   "url": "https://www.heise.de/rss/heise-atom.xml",
-  "time": "2026-11-22T13:01:56.942386+00:00"
+  "time": "2026-11-22T15:01:53.388847+00:00"
  },
  "golem.de": {
   "ok": true,
   "n": 40,
   "url": "https://rss.golem.de/rss.php?feed=RSS2.0",
-  "time": "2026-11-22T13:01:57.538329+00:00"
+  "time": "2026-11-22T15:01:52.948194+00:00"
  },
  "t3n": {
   "ok": true,
   "n": 20,
   "url": "https://t3n.de/rss.xml",
-  "time": "2026-11-22T13:01:56.348870+00:00"
+  "time": "2026-11-22T15:01:52.186846+00:00"
  },
  "netzpolitik.org": {
   "ok": true,
   "n": 25,
   "url": "https://netzpolitik.org/feed/",
-  "time": "2026-11-22T13:01:57.543658+00:00"
+  "time": "2026-11-22T15:01:54.060406+00:00"
  },
  "Spektrum": {
   "ok": true,
   "n": 20,
   "url": "https://www.spektrum.de/alias/rss/spektrum-de-rss-feed/996406",
-  "time": "2026-11-22T13:01:56.485724+00:00"
+  "time": "2026-11-22T15:01:52.172563+00:00"
  },
  "scinexx": {
   "ok": true,
   "n": 10,
   "url": "https://www.scinexx.de/feed/",
-  "time": "2026-11-22T13:01:57.587751+00:00"
+  "time": "2026-11-22T15:01:53.468780+00:00"
  },
  "Raumfahrer.net": {
   "ok": true,
   "n": 15,
   "url": "https://www.raumfahrer.net/feed/",
-  "time": "2026-11-22T13:01:57.294482+00:00"
+  "time": "2026-11-22T15:01:53.244031+00:00"
  },
  "Computerbase": {
   "ok": true,
   "n": 50,
   "url": "https://www.computerbase.de/rss/news.xml",
-  "time": "2026-11-22T13:01:57.097924+00:00"
+  "time": "2026-11-22T15:01:53.212278+00:00"
  },
  "ESA (DE)": {
   "ok": true,
   "n": 15,
   "url": "https://www.esa.int/rssfeed/Germany",
-  "time": "2026-11-22T13:01:56.980647+00:00"
+  "time": "2026-11-22T15:01:53.492083+00:00"
  },
  "Nature News": {
   "ok": true,
   "n": 75,
   "url": "https://www.nature.com/nature.rss",
-  "time": "2026-11-22T13:01:56.559251+00:00"
+  "time": "2026-11-22T15:01:52.394110+00:00"
  },
  "Science News (AAAS)": {
   "ok": true,
   "n": 10,
   "url": "https://www.science.org/rss/news_current.xml",
-  "time": "2026-11-22T13:01:56.656430+00:00"
+  "time": "2026-11-22T15:01:52.687917+00:00"
  },
  "New Scientist": {
   "ok": false,
   "n": 0,
   "error": "HTTPError: 406 Client Error: Not Acceptable for url: https://www.newscientist.com/feed/home/",
-  "time": "2026-11-22T13:01:56.827015+00:00"
+  "time": "2026-11-22T15:01:52.639686+00:00"
  },
  "Scientific American": {
   "ok": true,
   "n": 50,
   "url": "https://www.scientificamerican.com/platform/syndication/rss/",
-  "time": "2026-11-22T13:01:56.918793+00:00"
+  "time": "2026-11-22T15:01:52.811134+00:00"
  },
  "Quanta Magazine": {
   "ok": true,
   "n": 5,
   "url": "https://www.quantamagazine.org/feed/",
-  "time": "2026-11-22T13:01:56.970990+00:00"
+  "time": "2026-11-22T15:01:53.369721+00:00"
  },
  "Phys.org": {
   "ok": true,
   "n": 30,
   "url": "https://phys.org/rss-feed/breaking/",
-  "time": "2026-11-22T13:01:57.277609+00:00"
+  "time": "2026-11-22T15:01:52.967237+00:00"
  },
  "ScienceDaily": {
   "ok": true,
   "n": 60,
   "url": "https://www.sciencedaily.com/rss/top/science.xml",
-  "time": "2026-11-22T13:01:57.312248+00:00"
+  "time": "2026-11-22T15:01:53.167078+00:00"
  },
  "Science News": {
   "ok": true,
   "n": 20,
   "url": "https://www.sciencenews.org/feed",
-  "time": "2026-11-22T13:01:57.045696+00:00"
+  "time": "2026-11-22T15:01:53.266305+00:00"
  },
  "The Conversation": {
   "ok": true,
   "n": 46,
   "url": "https://theconversation.com/global/articles.atom",
-  "time": "2026-11-22T13:01:57.880856+00:00"
+  "time": "2026-11-22T15:01:54.646494+00:00"
  },
  "Ars Technica": {
   "ok": true,
   "n": 20,
   "url": "https://feeds.arstechnica.com/arstechnica/index",
-  "time": "2026-11-22T13:01:57.186143+00:00"
+  "time": "2026-11-22T15:01:53.402976+00:00"
  },
  "The Verge": {
   "ok": true,
   "n": 10,
   "url": "https://www.theverge.com/rss/index.xml",
-  "time": "2026-11-22T13:01:57.571083+00:00"
+  "time": "2026-11-22T15:01:53.545793+00:00"
  },
  "Wired": {
   "ok": true,
   "n": 50,
   "url": "https://www.wired.com/feed/rss",
-  "time": "2026-11-22T13:01:57.436413+00:00"
+  "time": "2026-11-22T15:01:53.655012+00:00"
  },
  "TechCrunch": {
   "ok": true,
   "n": 20,
   "url": "https://techcrunch.com/feed/",
-  "time": "2026-11-22T13:01:57.545883+00:00"
+  "time": "2026-11-22T15:01:53.539854+00:00"
  },
  "MIT Technology Review": {
   "ok": true,
   "n": 10,
   "url": "https://www.technologyreview.com/feed/",
-  "time": "2026-11-22T13:01:57.664638+00:00"
+  "time": "2026-11-22T15:01:53.973161+00:00"
  },
  "IEEE Spectrum": {
   "ok": true,
   "n": 30,
   "url": "https://spectrum.ieee.org/feeds/feed.rss",
-  "time": "2026-11-22T13:01:58.087318+00:00"
+  "time": "2026-11-22T15:01:54.153451+00:00"
  },
  "The Register": {
   "ok": true,
   "n": 50,
   "url": "https://www.theregister.com/headlines.atom",
-  "time": "2026-11-22T13:01:58.377463+00:00"
+  "time": "2026-11-22T15:01:55.015939+00:00"
  },
  "Engadget": {
   "ok": true,
   "n": 20,
   "url": "https://www.engadget.com/rss.xml",
-  "time": "2026-11-22T13:01:57.611374+00:00"
+  "time": "2026-11-22T15:01:53.722588+00:00"
  },
  "Tom's Hardware": {
   "ok": true,
   "n": 50,
   "url": "https://www.tomshardware.com/feeds/all",
-  "time": "2026-11-22T13:01:58.567209+00:00"
+  "time": "2026-11-22T15:01:55.374906+00:00"
  },
  "Electrek": {
   "ok": true,
   "n": 150,
   "url": "https://electrek.co/feed/",
-  "time": "2026-11-22T13:02:00.038474+00:00"
+  "time": "2026-11-22T15:01:54.569197+00:00"
  },
  "SpaceNews": {
   "ok": true,
   "n": 16,
   "url": "https://spacenews.com/feed/",
-  "time": "2026-11-22T13:01:57.836454+00:00"
+  "time": "2026-11-22T15:01:53.842033+00:00"
  },
  "Space.com": {
   "ok": true,
   "n": 50,
   "url": "https://www.space.com/feeds/all",
-  "time": "2026-11-22T13:01:59.171555+00:00"
+  "time": "2026-11-22T15:01:55.551357+00:00"
  },
  "NASASpaceflight": {
   "ok": true,
   "n": 10,
   "url": "https://www.nasaspaceflight.com/feed/",
-  "time": "2026-11-22T13:01:59.140491+00:00"
+  "time": "2026-11-22T15:01:55.031699+00:00"
  },
  "Spaceflight Now": {
   "ok": true,
   "n": 10,
   "url": "https://spaceflightnow.com/feed/",
-  "time": "2026-11-22T13:01:57.981706+00:00"
+  "time": "2026-11-22T15:01:54.228239+00:00"
  },
  "Ars Technica Space": {
   "ok": true,
   "n": 20,
   "url": "https://feeds.arstechnica.com/arstechnica/science",
-  "time": "2026-11-22T13:01:57.891613+00:00"
+  "time": "2026-11-22T15:01:54.063112+00:00"
  },
  "Payload": {
   "ok": true,
   "n": 13,
   "url": "https://payloadspace.com/feed/",
-  "time": "2026-11-22T13:01:58.001618+00:00"
+  "time": "2026-11-22T15:01:54.393073+00:00"
  },
  "Universe Today": {
   "ok": true,
   "n": 20,
   "url": "https://www.universetoday.com/feed/",
-  "time": "2026-11-22T13:01:58.289471+00:00"
+  "time": "2026-11-22T15:01:54.470999+00:00"
  },
  "NASA": {
   "ok": true,
   "n": 10,
   "url": "https://www.nasa.gov/news-release/feed/",
-  "time": "2026-11-22T13:01:58.671997+00:00"
+  "time": "2026-11-22T15:01:54.820810+00:00"
  },
  "ESA": {
   "ok": false,
   "n": 0,
   "error": "HTTPError: 404 Client Error: Not Found for url: https://www.esa.int/rssfeed/Our_Activities/Space_News",
-  "time": "2026-11-22T13:01:58.014076+00:00"
+  "time": "2026-11-22T15:01:54.208007+00:00"
  },
  "Planetary Society": {
   "ok": true,
   "n": 50,
   "url": "https://www.planetary.org/rss/articles",
-  "time": "2026-11-22T13:01:58.455737+00:00"
+  "time": "2026-11-22T15:01:54.603824+00:00"
  },
  "Teslarati": {
   "ok": true,
   "n": 10,
   "url": "https://www.teslarati.com/feed/",
-  "time": "2026-11-22T13:01:58.971498+00:00"
+  "time": "2026-11-22T15:01:56.775903+00:00"
  }
 }
