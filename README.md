@@ -65,3 +65,6 @@ long-pressing the **Today** title (or opening `#unlock`) and entering the passph
   `config.yaml → radar.model`) keeps only real events and groups them → encrypted `site/data/radar.enc`.
 - Secrets: `RADAR_PASSPHRASE`, `CLAUDE_CODE_OAUTH_TOKEN` (from `claude setup-token`).
 - Logs never contain topic names. Without Claude it falls back to keyword matching.
+- **Saving:** tap **☆ Save** on a radar event or on any story (when the radar is unlocked). Saved items
+  appear under **Radar → Saved** as snapshots, so they stay after the event leaves the feed. They live
+  on the device and, with a GitHub token, are synced into the encrypted `radar/topics.enc` (`saved`).

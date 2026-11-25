@@ -145,3 +145,6 @@ mark{background:rgba(242,201,76,.45);color:inherit;border-radius:2px}
   background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;
   transition:all .25s;z-index:30;max-width:90vw;text-align:center;pointer-events:none}
 .toast.on{opacity:1;transform:translate(-50%,0)}
+.savebtn{flex:1;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:10px;font-size:14px;font-weight:600;color:var(--ink)}
+.savebtn.on{background:#b07a12;border-color:#b07a12;color:#fff}
+.star{color:#b07a12;font-weight:700}

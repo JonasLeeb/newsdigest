@@ -4,7 +4,8 @@
 
 const R = {
   key: "rd_pass", tokenKey: "rd_token", seenKey: "rd_lastseen", hideKey: "rd_hidden",
-  data: null, doc: null, docSha: null, topic: "all", busy: false,
+  savedKey: "rd_saved", savedDelKey: "rd_saved_del",
+  data: null, doc: null, docSha: null, topic: "all", view: "feed", busy: false,
 };
 const EV = {
   launch: ["New product", "#2f7d4f"], paper: ["Paper", "#7a4fb5"], funding: ["Funding & M&A", "#b07a12"],
@@ -63,6 +64,7 @@ async function loadDoc() {
   if (!f) { R.doc = { version: 1, topics: [] }; R.docSha = null; return R.doc; }
   R.doc = await decryptText(b64utf8(f.content), pass);
   R.docSha = f.sha;
+  mergeSaved();
   return R.doc;
 }
 async function saveDoc() {
@@ -91,6 +93,106 @@ function toast(msg) {
   clearTimeout(R.tt); R.tt = setTimeout(() => t.classList.remove("on"), 3200);
 }
 
+/* ---------------------------------------------------------------- saved
+   Saved items are snapshots, so they survive after an event drops out of the feed.
+   Stored on this device (rd_saved) and, with a token, synced into the encrypted topics.enc
+   as doc.saved. Removals made offline are kept as tombstones until the next sync. */
+const jget = (k) => { try { return JSON.parse(ls.get(k) || "[]"); } catch (e) { return []; } };
+const savedList = () => jget(R.savedKey);
+const isSaved = (key) => savedList().some((x) => x.key === key);
+function setSaved(list) { ls.set(R.savedKey, JSON.stringify(list.slice(0, 500))); }
+
+function mergeSaved() {
+  if (!R.doc) return false;
+  const dels = new Set(jget(R.savedDelKey));
+  const byKey = new Map();
+  for (const x of [...(R.doc.saved || []), ...savedList()]) if (!dels.has(x.key)) byKey.set(x.key, { ...byKey.get(x.key), ...x });
+  const merged = [...byKey.values()].sort((a, b) => b.saved_at.localeCompare(a.saved_at));
+  const changed = JSON.stringify(merged) !== JSON.stringify(R.doc.saved || []);
+  R.doc.saved = merged;
+  setSaved(merged);
+  return changed;
+}
+
+async function syncSaved() {
+  if (!ls.get(R.tokenKey)) return;
+  try {
+    if (!R.doc) await loadDoc(); else mergeSaved();
+    if (await persist(null)) ls.del(R.savedDelKey);
+  } catch (e) { toast(`Saved on this device only (${e.message})`); }
+}
+
+function snapFromCard(c) {
+  const t = (R.data?.topics || []).find((x) => x.id === c.topic);
+  const srcs = [...c.sources].sort((a, b) => b.published.localeCompare(a.published));
+  return {
+    key: `r:${ckey(c)}`, kind: "radar", type: c.type, topic: t?.name || "", title: c.headline,
+    summary: c.facts || "", entity: c.entity || "", link: srcs[0]?.link || "", published: c.updated,
+    sources: srcs.slice(0, 8).map((x) => ({ outlet: x.outlet, title: x.title, link: x.link, published: x.published })),
+  };
+}
+function snapFromStory(s) {
+  return {
+    key: `s:${s.id}:${norm(s.title).slice(0, 40)}`, kind: "story", topic: s.topic || "", title: s.title,
+    summary: s.summary || "", entity: "", link: s.link, published: s.latest, lead: s.lead_outlet,
+    sources: s.articles.slice(0, 8).map((a) => ({ outlet: a.outlet, title: a.title, link: a.link, published: a.published })),
+  };
+}
+
+async function toggleSave(snap) {
+  if (!snap) return;
+  let list = savedList();
+  const was = list.some((x) => x.key === snap.key);
+  const dels = new Set(jget(R.savedDelKey));
+  if (was) { list = list.filter((x) => x.key !== snap.key); dels.add(snap.key); }
+  else { list.unshift({ ...snap, saved_at: new Date().toISOString() }); dels.delete(snap.key); }
+  setSaved(list);
+  ls.set(R.savedDelKey, JSON.stringify([...dels].slice(-500)));
+  if (R.doc) R.doc.saved = list;
+  for (const b of document.querySelectorAll(`[data-save="${CSS.escape(snap.key)}"]`)) paintSave(b, !was);
+  toast(was ? "Removed from saved" : "Saved to Radar");
+  paintSavedCount();
+  syncSaved();
+  return !was;
+}
+function paintSave(b, on) { b.classList.toggle("on", on); b.textContent = on ? "★ Saved" : "☆ Save"; }
+function saveBtn(key, src, arg) {
+  const on = isSaved(key);
+  return `<button class="savebtn ${on ? "on" : ""}" data-save="${esc(key)}" data-src="${src}" data-arg="${esc(arg)}">${on ? "★ Saved" : "☆ Save"}</button>`;
+}
+// Used by app.js on story sheets (only when the radar is unlocked).
+window.radarSaveBtn = (s) => (unlocked() ? saveBtn(snapFromStory(s).key, "story", s.id) : "");
+
+function savedCard(x) {
+  const [label, color] = x.kind === "radar" ? (EV[x.type] || EV.other) : ["Story", "#77756e"];
+  return `<a class="card" href="#rsaved/${encodeURIComponent(x.key)}">
+    <div class="meta"><span class="chip" style="background:${color};color:#fff;border-color:transparent">${label}</span>
+      ${x.topic ? `<span class="chip">${esc(x.topic)}</span>` : ""}<span>saved ${ago(x.saved_at)}</span></div>
+    <h3>${esc(x.title)}</h3>
+    ${x.summary ? `<p class="sum">${esc(x.summary)}</p>` : ""}
+    ${x.entity ? `<p class="ent">${esc(x.entity)}</p>` : ""}
+  </a>`;
+}
+
+function savedSheet(arg) {
+  const k = decodeURIComponent(arg || "");
+  const x = savedList().find((y) => y.key === k);
+  if (!x) return `<p class="empty">Not in your saved list anymore.</p>`;
+  const [label, color] = x.kind === "radar" ? (EV[x.type] || EV.other) : ["Story", "#77756e"];
+  const srcs = (x.sources || []).map((s) => `
+    <a class="art" href="${esc(s.link)}" target="_blank" rel="noopener"><small><b>${esc(s.outlet)}</b><span>${s.published ? ago(s.published) : ""}</span></small>${esc(s.title)}</a>`).join("");
+  return `<div class="detail">
+    <div class="meta"><span class="chip" style="background:${color};color:#fff;border-color:transparent">${label}</span>
+      ${x.topic ? `<span class="chip">${esc(x.topic)}</span>` : ""}<span>saved ${ago(x.saved_at)}</span></div>
+    <h2>${esc(x.title)}</h2>
+    ${x.summary ? `<p class="sum">${esc(x.summary)}</p>` : ""}
+    ${x.entity ? `<p class="ent" style="margin-top:6px">${esc(x.entity)}</p>` : ""}
+    ${x.link ? `<a class="lead" href="${esc(x.link)}" target="_blank" rel="noopener">Read${x.lead ? ` at ${esc(x.lead)}` : ""} ›</a>` : ""}
+    <div class="fb">${saveBtn(x.key, "saved", x.key)}</div>
+    ${srcs ? `<div class="box"><h4>Sources</h4>${srcs}</div>` : ""}
+  </div>`;
+}
+
 function addTab() {
   if (!unlocked() || $("#tabs a[data-tab=radar]")) return;
   $("#tabs").insertAdjacentHTML("beforeend", `<a href="#radar" data-tab="radar">
@@ -104,7 +206,7 @@ function rcard(c, topicsById, lastSeen) {
   const t = topicsById[c.topic];
   return `<a class="card" href="#rcard/${encodeURIComponent(ckey(c))}">
     <div class="meta">${isNew ? `<span class="newdot"></span>` : ""}<span class="chip" style="background:${color};color:#fff;border-color:transparent">${label}</span>
-      ${t ? `<span class="chip">${esc(t.name)}</span>` : ""}<span>${c.sources.length} source${c.sources.length > 1 ? "s" : ""} · ${ago(c.updated)}</span></div>
+      ${t ? `<span class="chip">${esc(t.name)}</span>` : ""}<span>${c.sources.length} source${c.sources.length > 1 ? "s" : ""} · ${ago(c.updated)}</span>${isSaved(`r:${ckey(c)}`) ? `<span class="star">★</span>` : ""}</div>
     <h3>${esc(c.headline)}</h3>
     ${c.facts ? `<p class="sum">${esc(c.facts)}</p>` : ""}
     ${c.entity ? `<p class="ent">${esc(c.entity)}</p>` : ""}
@@ -115,10 +217,33 @@ function viewRadar() {
   return `<div class="head"><h1>Radar</h1>
       ${ls.get(R.tokenKey) ? `<button class="iconbtn" id="rd-update" aria-label="Update now">↻</button>` : ""}
       <a class="iconbtn" href="#rtopics" style="text-decoration:none;display:flex;align-items:center">Topics</a></div>
-    <p class="sub" id="rd-sub">Decrypting…</p><section id="rd-list"></section>`;
+    <p class="sub" id="rd-sub">Decrypting…</p>
+    <div class="seg"><button data-rview="feed" class="${R.view === "feed" ? "on" : ""}">Events</button>
+      <button data-rview="saved" class="${R.view === "saved" ? "on" : ""}">Saved${savedList().length ? ` (${savedList().length})` : ""}</button></div>
+    <section id="rd-list"></section>`;
+}
+
+function renderSaved() {
+  const list = savedList();
+  const topics = [...new Set(list.map((x) => x.topic).filter(Boolean))];
+  const tf = R.savedTopic && topics.includes(R.savedTopic) ? R.savedTopic : "all";
+  const shown = tf === "all" ? list : list.filter((x) => x.topic === tf);
+  const chips = topics.length > 1 ? `<div class="filters" style="padding:0 0 10px">
+    ${[["all", "All"], ...topics.map((t) => [t, t])].map(([id, n]) =>
+      `<button class="tchip ${tf === id ? "on" : ""}" data-rstopic="${esc(id)}">${esc(n)}</button>`).join("")}</div>` : "";
+  $("#rd-list").innerHTML = chips + (shown.length ? shown.map(savedCard).join("")
+    : `<p class="empty">Nothing saved yet. Tap <b>☆ Save</b> on a radar event or any story.</p>`) +
+    (list.length && !ls.get(R.tokenKey) ? `<p class="note">Saved on this device only. Add a GitHub token under Topics to keep them in the encrypted repo.</p>` : "");
+}
+
+function paintSavedCount() {
+  const b = $("[data-rview=saved]"), n = savedList().length;
+  if (b) b.textContent = n ? `Saved (${n})` : "Saved";
 }
 
 async function afterRadar() {
+  paintSavedCount();
+  if (ls.get(R.tokenKey) && !R.doc) loadDoc().then(() => { paintSavedCount(); if (R.view === "saved" && S.tab === "radar") renderSaved(); }).catch(() => {});
   try {
     if (!R.data) await loadRadar();
   } catch (e) {
@@ -126,6 +251,10 @@ async function afterRadar() {
     return;
   }
   const d = R.data;
+  if (R.view === "saved") {
+    $("#rd-sub").textContent = d ? `Updated ${clock(d.generated)} · ${savedList().length} saved` : `${savedList().length} saved`;
+    return renderSaved();
+  }
   if (!d) {
     $("#rd-sub").textContent = "No radar data yet.";
     $("#rd-list").innerHTML = `<p class="empty">Add a topic under <b>Topics</b>. The first results appear a few minutes after saving.</p>`;
@@ -167,6 +296,7 @@ function cardSheet(arg) {
     <h2>${esc(c.headline)}</h2>
     ${c.facts ? `<p class="sum">${esc(c.facts)}</p>` : ""}
     ${c.entity ? `<p class="ent" style="margin-top:6px">${esc(c.entity)}</p>` : ""}
+    <div class="fb">${saveBtn(snapFromCard(c).key, "radar", k)}</div>
     <div class="fb">
       <button data-fb="up" data-k="${esc(k)}">👍 Relevant</button>
       <button data-fb="down" data-k="${esc(k)}">👎 Not relevant</button>
@@ -267,7 +397,9 @@ async function tryUnlock(e) {
 window.RadarRoutes = {
   unlock: { kind: "sheet", title: () => "Unlock", render: unlockSheet },
   radar: { kind: "tab", guard: unlocked, render: viewRadar, after: afterRadar },
-  rcard: { kind: "sheet", guard: unlocked, title: () => "Event", render: cardSheet },
+  rcard: { kind: "sheet", guard: unlocked, title: () => "Event", render: cardSheet,
+    after: async (a) => { if (!R.data) { try { await loadRadar(); $("#sheet-body").innerHTML = cardSheet(a); } catch (e) { /* keep "not found" */ } } } },
+  rsaved: { kind: "sheet", guard: unlocked, title: () => "Saved", render: savedSheet },
   rtopics: { kind: "sheet", guard: unlocked, title: () => "Radar topics", render: topicsSheet, after: afterTopics },
   rtopic: { kind: "sheet", guard: unlocked, title: (a) => (a === "new" ? "New topic" : "Edit topic"), render: topicForm,
     after: async (a) => { if (!R.doc) { try { await loadDoc(); $("#sheet-body").innerHTML = topicForm(a); } catch (e) { toast(e.message); } } } },
@@ -295,15 +427,17 @@ document.addEventListener("submit", async (e) => {
 });
 
 async function persist(okMsg) {
-  if (R.busy) return;
+  if (R.busy) return false;
   R.busy = true;
   try {
     await saveDoc();
     if (R.data) R.data.topics = R.doc.topics;
-    toast(okMsg);
+    if (okMsg) toast(okMsg);
+    return true;
   } catch (err) {
     toast(`Not saved: ${err.message}`);
     try { await loadDoc(); } catch (e2) { /* ignore */ }
+    return false;
   } finally { R.busy = false; }
 }
 
@@ -311,6 +445,20 @@ document.addEventListener("click", async (e) => {
   const b = e.target.closest("button");
   if (!b) return;
   if (b.dataset.rtopic) { R.topic = b.dataset.rtopic; afterRadar(); }
+  if (b.dataset.rstopic) { R.savedTopic = b.dataset.rstopic; renderSaved(); }
+  if (b.dataset.rview) {
+    R.view = b.dataset.rview;
+    for (const x of document.querySelectorAll("[data-rview]")) x.classList.toggle("on", x === b);
+    afterRadar();
+  }
+  if (b.dataset.save) {
+    const { save: key, src, arg } = b.dataset;
+    let snap = null;
+    if (src === "radar") { const c = (R.data?.cards || []).find((x) => ckey(x) === arg); if (c) snap = snapFromCard(c); }
+    else if (src === "story") { const st = S.byId[arg]; if (st) snap = snapFromStory(st); }
+    else snap = savedList().find((x) => x.key === key) || null;
+    await toggleSave(snap);
+  }
   if (b.id === "rd-update") {
     try { await dispatch(); toast("Update started · ~5 min"); } catch (err) { toast(err.message); }
   }
@@ -319,7 +467,8 @@ document.addEventListener("click", async (e) => {
     if (v) { ls.set(R.tokenKey, v); toast("Token saved on this device"); afterTopics(); }
   }
   if (b.id === "rt-lock") {
-    [R.key, R.tokenKey, R.seenKey, R.hideKey].forEach(ls.del);
+    if (savedList().length && !ls.get(R.tokenKey) && !confirm("Your saved items exist only on this device and will be deleted. Lock anyway?")) return;
+    [R.key, R.tokenKey, R.seenKey, R.hideKey, R.savedKey, R.savedDelKey].forEach(ls.del);
     R.data = null; R.doc = null;
     $("#tabs a[data-tab=radar]")?.remove();
     location.hash = "today";

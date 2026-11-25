@@ -220,6 +220,7 @@ function storySheet(s) {
     <h2>${esc(s.title)}</h2>
     ${s.summary ? `<p class="sum">${esc(s.summary)}</p>` : ""}
     <a class="lead" href="${esc(s.link)}" target="_blank" rel="noopener">Read at ${esc(s.lead_outlet)} ›</a>
+    ${window.radarSaveBtn ? `<div class="fb">${window.radarSaveBtn(s)}</div>` : ""}
     ${blind}
     ${nRated(s) ? `<div class="box"><h4>Political coverage · ${nRated(s)} rated outlets</h4>${bar(s)}<div class="hist">${hist}</div>
       <div class="legend" style="margin-top:2px"><span>Left</span><span>Center</span><span>Right</span></div></div>`
